@@ -21,10 +21,13 @@ public class MainActivity extends AppCompatActivity {
         public void handleMessage(Message msg){
             //Intent intent=new Intent(String.valueOf(ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle()));//实际是页面跳转
             Intent intent= new Intent(MainActivity.this,FragAct.class);
-            startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());
+            MainActivity.this.startActivity(intent);
+            //startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());
+
             finishAfterTransition();
             //finish();//销毁welcome页面。
             super.handleMessage(msg);
+
         }
     };
 

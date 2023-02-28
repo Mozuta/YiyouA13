@@ -18,15 +18,16 @@ public class FragAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        //getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(R.layout.activity_frag);
-        setupWindowAnimations();
+        //setupWindowAnimations();
         bt=(Button)findViewById(R.id.button_t);
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(FragAct.this,TestActivity.class);
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(FragAct.this).toBundle());
+                Intent intent = new Intent(FragAct.this,bottomnavi.class);
+                //startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(FragAct.this).toBundle());
+                FragAct.this.startActivity(intent);
             }
         });
     }
