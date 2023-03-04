@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         //getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(R.layout.activity_main);
         setupWindowAnimations();
-        handler.sendEmptyMessageDelayed(0,2000);//4000毫秒
+        handler.sendEmptyMessageDelayed(0,1000);//4000毫秒
 
 
     }

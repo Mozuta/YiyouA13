@@ -22,6 +22,7 @@ public class FragAct extends AppCompatActivity {
         setContentView(R.layout.activity_frag);
         //setupWindowAnimations();
         bt=(Button)findViewById(R.id.button_t);
+
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

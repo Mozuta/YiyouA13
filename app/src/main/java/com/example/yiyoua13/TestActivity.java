@@ -13,6 +13,8 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         setupWindowAnimations();
+
+
     }
     private void setupWindowAnimations() {
         Fade fade = (Fade) TransitionInflater.from(this).inflateTransition(R.transition.activity_fade);

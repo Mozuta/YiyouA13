@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.User.UserFragment"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/setmesll"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:gravity="right"
+        >
+        <ImageButton
+            android:id="@+id/setmes"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_menu_camera"/>
+
+        <ImageButton
+            android:id="@+id/setmes2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_menu_camera" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/headin"
+
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        >
+    </LinearLayout>
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+
+
+        android:foreground="@drawable/circle_button"
+        android:id="@+id/tx"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+
+
+        >
+</de.hdodenhof.circleimageview.CircleImageView>
+
+    <TextView
+        android:id="@+id/text_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:textAlignment="center"
+        android:textSize="20sp"/>
+</LinearLayout>
