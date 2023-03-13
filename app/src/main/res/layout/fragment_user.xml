@@ -15,50 +15,116 @@
         android:gravity="right"
         >
         <ImageButton
-            android:id="@+id/setmes"
+            android:id="@+id/history"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_menu_camera"/>
 
         <ImageButton
-            android:id="@+id/setmes2"
+            android:id="@+id/article"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_menu_camera" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/headin"
-
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
-        android:gravity="center"
         >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/tx"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="16dp"
+            android:foreground="@drawable/circle_button"
+            android:src="@drawable/lwr"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="name"
+                android:textSize="30sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="bottom">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fans"
+                    android:textSize="20sp"
+                    android:text="粉丝:"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fansnum"
+                    android:textSize="20sp"
+                    android:layout_marginStart="8dp"
+                    android:text="0"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/follow"
+                    android:textSize="20sp"
+                    android:layout_marginStart="8dp"
+                    android:text="关注:"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/follownum"
+                    android:textSize="20sp"
+                    android:layout_marginStart="8dp"
+                    android:text="0"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
 
 
-        android:foreground="@drawable/circle_button"
-        android:id="@+id/tx"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="16dp"
 
 
-        >
-</de.hdodenhof.circleimageview.CircleImageView>
-
-    <TextView
-        android:id="@+id/text_user"
+        <TextView
+            android:id="@+id/text_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:textAlignment="center"
+            android:textSize="20sp"/>
+    <Switch
+        android:id="@+id/switch_button"
+        android:layout_marginStart="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="通知权限" />
+    <Switch
+        android:id="@+id/switch_button2"
+        android:layout_marginStart="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="播报权限" />
+    <SearchView
+        android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"/>
+        android:iconifiedByDefault="false"
+        android:queryHint="搜索" />
+
 </LinearLayout>

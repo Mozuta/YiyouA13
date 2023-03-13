@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="3dp">
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        >
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <ImageView
+                android:id="@+id/mainpic"
+                android:layout_width="180dp"
+                android:layout_height="200dp"
+                android:src="@drawable/lwr"
+                />
+            <TextView
+                android:id="@+id/textpic"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Hello World!1111114444"
+                android:textSize="16sp"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="20dp"
+                android:textColor="@color/black"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginStart="6dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/tx"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+
+                    android:src="@drawable/hog" />
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="77dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="6dp"
+                    android:text="name"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <com.like.LikeButton
+
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    app:anim_scale_factor="10"
+                    app:circle_end_color="@color/purple_500"
+                    app:circle_start_color="@color/purple_200"
+                    app:dots_primary_color="@color/purple_500"
+                    app:dots_secondary_color="@color/purple_700"
+                    app:icon_size="6dp"
+                    app:icon_type="Star"
+                    app:like_drawable="@drawable/thumb_on"
+                    app:liked="false"
+                    app:unlike_drawable="@drawable/thumb_off"
+
+                    >
+
+                    <TextView
+                        android:id="@+id/like"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|right"
+                        android:text="100"
+
+                        android:textSize="12sp" />
+                </com.like.LikeButton>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+
+</LinearLayout>
