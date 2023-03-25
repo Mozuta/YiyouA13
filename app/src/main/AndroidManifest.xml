@@ -1,69 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <!--允许访问网络，必选权限-->
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <!--允许获取精确位置，精准定位必选-->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <!--允许获取粗略位置，粗略定位必选-->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
-    <!--允许获取设备和运营商信息，用于问题排查和网络定位（无gps情况下的定位），若需网络定位功能则必选-->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
-    <!--允许获取网络状态，用于网络定位（无gps情况下的定位），若需网络定位功能则必选-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <!--允许获取wifi网络信息，用于网络定位（无gps情况下的定位），若需网络定位功能则必选-->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
-    <!--允许获取wifi状态改变，用于网络定位（无gps情况下的定位），若需网络定位功能则必选-->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-
-    <!--后台获取位置信息，若需后台定位则必选-->
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-
-    <!--用于申请调用A-GPS模块,卫星定位加速-->
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-
-    <!--允许写设备缓存，用于问题排查-->
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
-        tools:ignore="ProtectedPermissions" />
-
-    <!--允许写入扩展存储，用于写入缓存定位数据-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <!--允许读设备等信息，用于问题排查-->
+    xmlns:tools="http://schemas.android.com/tools" >
+    <!-- 允许访问网络，必选权限 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 允许获取精确位置，精准定位必选 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 允许获取粗略位置，粗略定位必选 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 允许获取设备和运营商信息，用于问题排查和网络定位（无gps情况下的定位），若需网络定位功能则必选 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 允许获取网络状态，用于网络定位（无gps情况下的定位），若需网络定位功能则必选 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 允许获取wifi网络信息，用于网络定位（无gps情况下的定位），若需网络定位功能则必选 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 允许获取wifi状态改变，用于网络定位（无gps情况下的定位），若需网络定位功能则必选 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 后台获取位置信息，若需后台定位则必选 -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> <!-- 用于申请调用A-GPS模块,卫星定位加速 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" /> <!-- 允许写设备缓存，用于问题排查 -->
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" /> <!-- 允许写入扩展存储，用于写入缓存定位数据 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 允许读设备等信息，用于问题排查 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-
-
     <application
-
-
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
-        android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31" >
+        <activity
+            android:name=".ui.DetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.InnerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.SearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.ContentActivity"
+            android:exported="false" />
 
-        tools:targetApi="31">
         <service android:name="com.amap.api.location.APSService" />
+
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="cd49a56f16ba1dbfd3004edd47d6fecb"/>
+            android:value="cd49a56f16ba1dbfd3004edd47d6fecb" />
         <meta-data
             android:name="design_width_in_dp"
-            android:value="360"/>
+            android:value="360" />
         <meta-data
             android:name="design_height_in_dp"
-            android:value="640"/>
+            android:value="640" />
+
         <activity
             android:name=".bottomnavi"
             android:exported="false"
@@ -76,7 +65,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

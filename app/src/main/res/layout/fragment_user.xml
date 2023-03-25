@@ -6,19 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".ui.User.UserFragment"
     android:orientation="vertical">
+
     <LinearLayout
+        android:id="@+id/setmesll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/setmesll"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
         android:gravity="right"
-        >
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <ImageButton
             android:id="@+id/history"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_menu_camera"/>
+            android:src="@drawable/ic_menu_camera" />
 
         <ImageButton
             android:id="@+id/article"
@@ -26,24 +29,27 @@
             android:layout_height="40dp"
             android:src="@drawable/ic_menu_camera" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/headin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/setmesll">
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/tx"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="16dp"
             android:foreground="@drawable/circle_button"
-            android:src="@drawable/lwr"/>
+            android:src="@drawable/lwr" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/name"
                 android:layout_width="match_parent"
@@ -53,78 +59,115 @@
                 android:layout_marginEnd="8dp"
                 android:text="name"
                 android:textSize="30sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:gravity="bottom">
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/fans"
-                    android:textSize="20sp"
-                    android:text="粉丝:"/>
-                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="粉丝:"
+                    android:textSize="20sp" />
+
+                <TextView
                     android:id="@+id/fansnum"
-                    android:textSize="20sp"
-                    android:layout_marginStart="8dp"
-                    android:text="0"/>
-                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="0"
+                    android:textSize="20sp" />
+
+                <TextView
                     android:id="@+id/follow"
-                    android:textSize="20sp"
-                    android:layout_marginStart="8dp"
-                    android:text="关注:"/>
-                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/follownum"
-                    android:textSize="20sp"
                     android:layout_marginStart="8dp"
-                    android:text="0"/>
+                    android:text="关注:"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/follownum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="0"
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
 
+    <View
+        android:layout_marginTop="6dp"
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/headin"
+        />
 
-
-
-
-
-        <TextView
-            android:id="@+id/text_user"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:textAlignment="center"
-            android:textSize="20sp"/>
-    <Switch
-        android:id="@+id/switch_button"
-        android:layout_marginStart="8dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="通知权限" />
-    <Switch
-        android:id="@+id/switch_button2"
-        android:layout_marginStart="8dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="播报权限" />
-    <SearchView
-        android:id="@+id/search_view"
+    <LinearLayout
+        android:id="@+id/my_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:iconifiedByDefault="false"
-        android:queryHint="搜索" />
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/view">
+
+        <TextView
+            android:id="@+id/my_article"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="我的文章"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/my_fans"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="我的粉丝"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/my_follow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="我的关注"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/my_content">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/my_content" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 
 </LinearLayout>

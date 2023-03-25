@@ -31,19 +31,37 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.example.yiyoua13.PersonAdapter;
 import com.example.yiyoua13.R;
+import com.example.yiyoua13.WaterFallAdapter;
 import com.example.yiyoua13.databinding.FragmentUserBinding;
+import com.example.yiyoua13.variousclass.fans;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class UserFragment extends Fragment {
+public class UserFragment extends Fragment implements View.OnClickListener{
+
+    private RecyclerView mRecyclerView;
+    private int flag = 0;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView.LayoutManager mLayoutManager2;
+    private PersonAdapter mAdapter;
+    private WaterFallAdapter mAdapter2;
+
+    private TextView myfollow;
+    private TextView myfans;
+    private TextView mycontent;
 
     private FragmentUserBinding binding;
     private CircleImageView touxiang;
@@ -85,23 +103,8 @@ public class UserFragment extends Fragment {
 
         binding = FragmentUserBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        touxiang=binding.tx;
+        init();//大的在这呢！！！！！！！！！！！！
 
-
-        //setCircularImageButton(touxiang);
-
-        touxiang.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("NonConstantResourceId")
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.tx:// 更换头像
-                        showTypeDialog();
-                        break;
-                }
-            }
-        });
-        final TextView textView = binding.textUser;
 
         Bitmap bt = BitmapFactory.decodeFile(path + "head.jpg");// 从SD卡中找头像，转换成Bitmap
         if (bt != null) {
@@ -114,7 +117,6 @@ public class UserFragment extends Fragment {
              *
              */
         }
-        userViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
     private void showTypeDialog() {
@@ -146,6 +148,147 @@ public class UserFragment extends Fragment {
         });
         dialog.setView(view);
         dialog.show();
+    }
+    private void init(){
+        touxiang=binding.tx;
+        mRecyclerView = binding.recyclerView;
+        mycontent = binding.myArticle;
+        myfans = binding.myFans;
+        myfollow = binding.myFollow;
+        mycontent.setOnClickListener(this);
+        myfans.setOnClickListener(this);
+        myfollow.setOnClickListener(this);
+        touxiang.setOnClickListener(this);
+        //binding.refreshLayout.setEnableLoadMore(false);
+        //下拉刷新
+        binding.refreshLayout.setOnRefreshListener(refreshLayout -> {
+            //刷新数据
+            switch (flag){
+                case -1:
+                    mAdapter2 = new WaterFallAdapter(getActivity(), buildData());
+                    mRecyclerView.setAdapter(mAdapter2);
+                    break;
+                case 0:
+                    mAdapter = new PersonAdapter(getActivity(), buildDatafans());
+                    mRecyclerView.setAdapter(mAdapter);
+                    break;
+                case 1:
+                    mAdapter = new PersonAdapter(getActivity(), buildDatafollow());
+                    mRecyclerView.setAdapter(mAdapter);
+                    break;
+            }
+            refreshLayout.finishRefresh(2000);//传入false表示刷新失败
+        });
+        //上拉加载
+        binding.refreshLayout.setOnLoadMoreListener(refreshLayout -> {
+            switch (flag){
+                case -1:
+                    mAdapter2 = new WaterFallAdapter(getActivity(), buildData());
+                    mRecyclerView.setAdapter(mAdapter2);
+                    break;
+                case 0:
+                    mAdapter = new PersonAdapter(getActivity(), buildDatafans());
+                    mRecyclerView.setAdapter(mAdapter);
+                    break;
+                case 1:
+                    mAdapter = new PersonAdapter(getActivity(), buildDatafollow());//////
+                    mRecyclerView.setAdapter(mAdapter);
+                    break;
+            }
+            refreshLayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
+        });
+        mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        mAdapter = new PersonAdapter(getActivity(), buildDatafans());
+        mLayoutManager2 = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+
+
+    }
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.my_article:
+                //刷新数据
+                flag=-1;
+                mRecyclerView.setLayoutManager(mLayoutManager2);
+                mAdapter2 = new WaterFallAdapter(getActivity(), buildData());
+                mRecyclerView.setAdapter(mAdapter2);
+
+                break;
+            case R.id.my_fans:
+                flag=0;
+                mRecyclerView.setLayoutManager(mLayoutManager);
+                mAdapter = new PersonAdapter(getActivity(), buildDatafans());
+                mRecyclerView.setAdapter(mAdapter);
+                break;
+            case R.id.my_follow:
+                flag=1;
+                mRecyclerView.setLayoutManager(mLayoutManager);
+                mAdapter = new PersonAdapter(getActivity(), buildDatafollow());
+                mRecyclerView.setAdapter(mAdapter);
+                break;
+            case R.id.tx:
+                showTypeDialog();
+                break;
+        }
+    }
+    private List<WaterFallAdapter.PersonCard> buildData() {
+
+        String[] names = {"拉格纳罗斯","甘雨","伦纳德","nox","盖伦","陈博晟"};
+        String[] contents = {"a","b","c5641561654564564","d","e","f"};
+        String[] likes = {"99+","2","3","4","5","6"};
+
+        String[] imgUrs = {"https://i.postimg.cc/x1HHh4C7/1.png","","https://i.postimg.cc/3JGhkJ8C/whl.jpg","https://i.postimg.cc/3JGhkJ8C/whl.jpg","https://i.postimg.cc/3JGhkJ8C/whl.jpg","https://i.postimg.cc/3JGhkJ8C/whl.jpg",
+
+        };
+        String[] headUrs = {
+                "https://i.postimg.cc/3JGhkJ8C/whl.jpg","https://i.postimg.cc/3JGhkJ8C/whl.jpg","https://i.postimg.cc/3JGhkJ8C/whl.jpg","https://i.postimg.cc/3JGhkJ8C/whl.jpg","https://i.postimg.cc/3JGhkJ8C/whl.jpg","https://i.postimg.cc/3JGhkJ8C/whl.jpg",
+
+        };
+
+        List<WaterFallAdapter.PersonCard> list = new ArrayList<>();
+        for(int i=0;i<6;i++) {
+            WaterFallAdapter.PersonCard p = new WaterFallAdapter.PersonCard();
+
+            p.avatarUrl = imgUrs[i];
+            p.name = names[i];
+            p.content = contents[i];
+            p.like = likes[i];
+            p.headurl = headUrs[i];
+            p.imgHeight = 500;//(i % 2)*100 + 400; //偶数和奇数的图片设置不同的高度，以到达错开的目的
+            list.add(p);
+        }
+
+        return list;
+    }
+
+    private List<fans> buildDatafans() {
+        List<fans> list = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            fans fans = new fans();
+            fans.setFans_name("粉丝" + i);
+            fans.setFans_headpic("https://i.postimg.cc/x1HHh4C7/1.png");
+            //fans.setFans_id(String.valueOf(i));
+            fans.setFans_num(String.valueOf(i));
+            fans.setContent_num(String.valueOf(i*2));
+            list.add(fans);
+        }
+        return list;
+    }
+    private List<fans> buildDatafollow() {
+        List<fans> list = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            fans fans = new fans();
+            fans.setFans_name("关注" + i);
+            fans.setFans_headpic("https://i.postimg.cc/x1HHh4C7/1.png");
+            //fans.setFans_id(String.valueOf(i));
+            fans.setFans_num(String.valueOf(i));
+            fans.setContent_num(String.valueOf(i*2));
+            list.add(fans);
+        }
+        return list;
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -212,12 +355,7 @@ public class UserFragment extends Fragment {
 
         startActivityForResult(intent, 3);
     }
-    public static void setCircularImageButton(ImageButton imageButton) {
-        Bitmap bitmap = ((BitmapDrawable) imageButton.getDrawable()).getBitmap();
-        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(imageButton.getResources(), bitmap);
-        roundedBitmapDrawable.setCircular(true);
-        imageButton.setImageDrawable(roundedBitmapDrawable);
-    }
+
 
     private void setPicToView(Bitmap mBitmap) {
         String sdStatus = Environment.getExternalStorageState();
@@ -260,4 +398,6 @@ public class UserFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+
 }
