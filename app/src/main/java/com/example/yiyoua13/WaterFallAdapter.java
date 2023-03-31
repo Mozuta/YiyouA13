@@ -1,6 +1,7 @@
 package com.example.yiyoua13;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,7 +17,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.yiyoua13.ui.DetailActivity;
 import com.example.yiyoua13.variousclass.fans;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.like.LikeButton;
@@ -75,9 +75,11 @@ public class WaterFallAdapter extends RecyclerView.Adapter {
             public void onClick(View v) {
                 int position = holder.getBindingAdapterPosition();
                 PersonCard personCard = mData.get(position);
-                Intent intent = new Intent(mContext, DetailActivity.class);
+                Intent intent = new Intent(mContext, TestActivity.class);
                 intent.putExtra("person_data", personCard.name);
                 mContext.startActivity(intent);
+                //销毁当前Activity
+                //((Activity)mContext).finish();
             }
         });
         ((MyViewHolder) holder).likeButton.setOnLikeListener(new OnLikeListener() {

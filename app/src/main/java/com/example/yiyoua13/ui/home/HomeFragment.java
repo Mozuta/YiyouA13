@@ -15,9 +15,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.example.yiyoua13.TestActivity;
 import com.example.yiyoua13.WaterFallAdapter;
 import com.example.yiyoua13.databinding.FragmentHomeBinding;
 import com.example.yiyoua13.ui.ContentActivity;
+import com.example.yiyoua13.ui.DetailActivity;
+import com.example.yiyoua13.ui.RecommendActivity;
 import com.example.yiyoua13.ui.SearchActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -32,6 +35,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private WaterFallAdapter mAdapter;
     private Button search_btn;
+    private Button recommend_btn;
     private ImageButton push_btn;
 
 
@@ -48,6 +52,7 @@ public class HomeFragment extends Fragment {
         return root;
     }
     private void init() {
+        recommend_btn = binding.recommend;
         mRecyclerView= binding.recyclerview;
         search_btn = binding.search;
         push_btn = binding.addContent;
@@ -65,6 +70,14 @@ public class HomeFragment extends Fragment {
             mAdapter = new WaterFallAdapter(getActivity(), buildData());
             mRecyclerView.setAdapter(mAdapter);
             refreshLayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
+        });
+        recommend_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //跳转到推荐界面
+                Intent intent = new Intent(getActivity(), RecommendActivity.class);
+                startActivity(intent);
+            }
         });
 
         push_btn.setOnClickListener(new View.OnClickListener() {

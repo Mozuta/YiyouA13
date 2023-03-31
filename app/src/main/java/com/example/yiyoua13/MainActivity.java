@@ -3,6 +3,7 @@ package com.example.yiyoua13;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,14 +14,16 @@ import android.transition.Slide;
 import android.transition.TransitionInflater;
 import android.view.Window;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.yiyoua13.ui.InterestActivity;
+
+public class MainActivity extends Activity {
 
     @SuppressLint("HandlerLeak")
     private final Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg){
             //Intent intent=new Intent(String.valueOf(ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle()));//实际是页面跳转
-            Intent intent= new Intent(MainActivity.this,FragAct.class);
+            Intent intent= new Intent(MainActivity.this, FragAct.class);
             MainActivity.this.startActivity(intent);
             //startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());
 

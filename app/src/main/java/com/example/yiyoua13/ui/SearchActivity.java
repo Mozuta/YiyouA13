@@ -3,6 +3,7 @@ package com.example.yiyoua13.ui;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,7 +18,7 @@ import com.example.yiyoua13.variousclass.Place;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchActivity extends AppCompatActivity implements View.OnClickListener{
+public class SearchActivity extends Activity implements View.OnClickListener{
     private SearchView searchView;
     private ImageButton jdbtn1;
     private ImageButton jdbtn2;
@@ -61,10 +62,22 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         jdbtn6.setOnClickListener(this);
         jdbtn7.setOnClickListener(this);
         jdbtn8.setOnClickListener(this);
+        //
         placeList.add(new Place("星海大桥",R.drawable.hog));
         placeList.add(new Place("达达利亚",R.drawable.lwr));
         placeList.add(new Place("默认图片",R.drawable.ic_launcher_background));
         placeList.add(new Place("还是默认",R.drawable.ic_launcher_background));
+        placeList.add(new Place("缺省默认",R.drawable.ic_launcher_background));
+        placeList.add(new Place("缺省默认",R.drawable.ic_launcher_background));
+        placeList.add(new Place("缺省默认",R.drawable.ic_launcher_background));
+        placeList.add(new Place("缺省默认",R.drawable.ic_launcher_background));
+        placeList.add(new Place("缺省默认",R.drawable.ic_launcher_background));
+        placeList.add(new Place("缺省默认",R.drawable.ic_launcher_background));
+        placeList.add(new Place("缺省默认",R.drawable.ic_launcher_background));
+        placeList.add(new Place("缺省默认",R.drawable.ic_launcher_background));
+        placeList.add(new Place("缺省默认",R.drawable.ic_launcher_background));
+        placeList.add(new Place("缺省默认",R.drawable.ic_launcher_background));
+        placeList.add(new Place("缺省默认",R.drawable.ic_launcher_background));
         placeList.add(new Place("缺省默认",R.drawable.ic_launcher_background));
         PlaceAdapter adapter = new PlaceAdapter(placeList,this);
         spinner.setAdapter(adapter);

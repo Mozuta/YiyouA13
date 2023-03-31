@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/re_cardView"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:background="@drawable/hog"
+            android:id="@+id/re_total"
+
+
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/re_total_title"
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="隐于温柔的黄昏"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:textSize="20sp" />
+            <TextView
+                android:id="@+id/re_total_content"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="根据您想去的景点为您推荐"/>
+        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_10"
+                >
+                <androidx.cardview.widget.CardView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
+
+                    <ImageView
+
+                        android:id="@+id/icon01"
+                        android:layout_width="63dp"
+                        android:layout_height="63dp"
+                        android:src="@drawable/cat"
+
+                        />
+
+                </androidx.cardview.widget.CardView>
+
+
+                <LinearLayout
+                    android:id="@+id/re01"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:id="@+id/re_name01"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="方块🐱"
+                        android:textSize="@dimen/sp_12" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+
+                        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                            android:id="@+id/re_materialRatingBar01"
+                            style="@style/Widget.MaterialRatingBar.RatingBar"
+                            android:layout_width="92dp"
+                            android:layout_height="17dp"
+                            android:layout_marginStart="9dp"
+
+                            android:progressTint="#FF0000"
+
+                            android:layout_marginTop="4dp"
+                            android:isIndicator="true" />
+
+                        <TextView
+                            android:id="@+id/re_rating01"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginStart="6dp"
+                            android:text="4.5"
+                            android:textColor="#FF0000"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/re_price01"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginStart="6dp"
+                            android:text="100/人"
+                            android:textSize="12sp" />
+
+
+                    </LinearLayout>
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"/>
+                    <TextView
+                        android:id="@+id/re_tag01"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="6dp"
+                        android:textColor="#FF9900"
+                        android:background="#F7F7F7"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginStart="9dp"
+                        android:layout_marginEnd="9dp"
+                        android:layout_marginBottom="@dimen/dp_4"
+
+                        android:textSize="@dimen/sp_12"
+                        android:text="“LOS 4”"/>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_10"
+                >
+                <androidx.cardview.widget.CardView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
+
+                    <ImageView
+
+                        android:id="@+id/icon02"
+                        android:layout_width="63dp"
+                        android:layout_height="63dp"
+                        android:src="@drawable/sqw"
+
+                        />
+
+                </androidx.cardview.widget.CardView>
+
+
+                <LinearLayout
+                    android:id="@+id/re02"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:id="@+id/re_name02"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="日本摩天轮"
+                        android:textSize="@dimen/sp_12" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+
+                        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                            android:id="@+id/re_materialRatingBar02"
+                            style="@style/Widget.MaterialRatingBar.RatingBar"
+                            android:layout_width="92dp"
+                            android:layout_height="17dp"
+                            android:layout_marginStart="9dp"
+                            android:progressTint="#FF0000"
+
+                            android:layout_marginTop="4dp"
+                            android:isIndicator="true" />
+
+                        <TextView
+                            android:id="@+id/re_rating02"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginStart="6dp"
+                            android:text="4.5"
+                            android:textColor="#FF0000"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/re_price02"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginStart="6dp"
+                            android:text="100/人"
+                            android:textSize="12sp" />
+
+
+                    </LinearLayout>
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"/>
+                    <TextView
+                        android:id="@+id/re_tag02"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="6dp"
+                        android:textColor="#FF9900"
+                        android:background="#F7F7F7"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginStart="9dp"
+                        android:layout_marginEnd="9dp"
+                        android:layout_marginBottom="@dimen/dp_4"
+
+                        android:textSize="@dimen/sp_12"
+                        android:text="“异国风情”"/>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_10"
+                >
+                <androidx.cardview.widget.CardView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
+
+                    <ImageView
+
+                        android:id="@+id/icon03"
+                        android:layout_width="63dp"
+                        android:layout_height="63dp"
+                        android:src="@drawable/flower"
+
+                        />
+
+                </androidx.cardview.widget.CardView>
+
+
+
+                <LinearLayout
+                    android:id="@+id/re03"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:id="@+id/re_name03"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="玫瑰学派"
+                        android:textSize="@dimen/sp_12" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+
+                        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                            android:id="@+id/re_materialRatingBar03"
+                            style="@style/Widget.MaterialRatingBar.RatingBar"
+                            android:layout_width="92dp"
+                            android:layout_height="17dp"
+                            android:layout_marginStart="9dp"
+                            android:progressTint="#FF0000"
+                            android:layout_marginTop="4dp"
+                            android:isIndicator="true" />
+
+                        <TextView
+                            android:id="@+id/re_rating03"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginStart="6dp"
+                            android:text="4.5"
+                            android:textColor="#FF0000"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/re_price03"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginStart="6dp"
+                            android:text="100/人"
+                            android:textSize="12sp" />
+
+
+                    </LinearLayout>
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"/>
+                    <TextView
+                        android:id="@+id/re_tag03"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="6dp"
+                        android:textColor="#FF9900"
+                        android:background="#F7F7F7"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginStart="9dp"
+                        android:layout_marginEnd="9dp"
+                        android:layout_marginBottom="@dimen/dp_4"
+
+                        android:textSize="@dimen/sp_12"
+                        android:text="“山河无恙”"/>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp_4"
+                >
+                <androidx.cardview.widget.CardView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
+
+                    <ImageView
+
+                        android:id="@+id/icon04"
+                        android:layout_width="63dp"
+                        android:layout_height="63dp"
+                        android:src="@drawable/tree"
+
+                        />
+
+                </androidx.cardview.widget.CardView>
+
+
+                <LinearLayout
+                    android:id="@+id/re04"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:id="@+id/re_name04"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="零落成泥碾作尘"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp_12" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+
+                        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                            android:id="@+id/re_materialRatingBar04"
+                            style="@style/Widget.MaterialRatingBar.RatingBar"
+                            android:layout_width="92dp"
+                            android:layout_height="17dp"
+                            android:layout_marginStart="9dp"
+                            android:progressTint="#FF0000"
+                            android:layout_marginTop="4dp"
+                            android:isIndicator="true" />
+
+                        <TextView
+                            android:id="@+id/re_rating04"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginStart="6dp"
+                            android:text="4.5"
+                            android:textColor="#FF0000"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/re_price04"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginStart="6dp"
+                            android:text="100/人"
+                            android:textSize="12sp" />
+
+
+                    </LinearLayout>
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"/>
+                    <TextView
+                        android:id="@+id/re_tag04"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="6dp"
+                        android:textColor="#FF9900"
+                        android:background="#F7F7F7"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginStart="9dp"
+                        android:layout_marginEnd="9dp"
+                        android:layout_marginBottom="@dimen/dp_4"
+
+
+                        android:textSize="@dimen/sp_12"
+                        android:text="“欣赏绝美风景”"/>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,6 +32,7 @@ public class PersonAdapter extends RecyclerView.Adapter{
         return new PAViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         PAViewHolder paViewHolder=(PAViewHolder)holder;

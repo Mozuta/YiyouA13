@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.InterestActivity">
+
+    <TextView
+        android:id="@+id/pic_chose_title"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="65dp"
+        android:lineSpacingExtra="5sp"
+        android:text="快来选择你喜爱的景点类型"
+        android:textColor="#4a4a4a"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/pic_chose_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="5dp"
+        android:text="以便为您更精准地推荐出行~"
+        android:textColor="#9b9b9b"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pic_chose_title" />
+
+    <ImageView
+        android:id="@+id/pic_chose_icon"
+        android:layout_width="52dp"
+        android:layout_height="74dp"
+        android:layout_marginEnd="25dp"
+        android:src="@drawable/tag"
+        app:layout_constraintBottom_toBottomOf="@+id/pic_chose_title"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/pic_chose_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pic_chose_hint">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <Button
+
+        android:id="@+id/pic_chose_btn"
+        android:layout_width="290dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="25dp"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="选好了"
+        android:textColor="#ffffff"
+        android:textSize="15sp"
+        android:background="@drawable/selector_grey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
