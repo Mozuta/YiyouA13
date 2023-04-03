@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -38,7 +39,15 @@ import com.example.yiyoua13.PersonAdapter;
 import com.example.yiyoua13.R;
 import com.example.yiyoua13.WaterFallAdapter;
 import com.example.yiyoua13.databinding.FragmentUserBinding;
+import com.example.yiyoua13.ui.FansFollowActivity;
+import com.example.yiyoua13.ui.FavoriteActivity;
+import com.example.yiyoua13.ui.InfoActivity;
+import com.example.yiyoua13.ui.MineActivity;
 import com.example.yiyoua13.variousclass.fans;
+import com.scwang.smartrefresh.header.DeliveryHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -53,11 +62,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UserFragment extends Fragment implements View.OnClickListener{
 
     private RecyclerView mRecyclerView;
+    private ImageButton bt_info;
+    private ImageButton bt_fav;
+    private ImageButton bt_mine;
     private int flag = 0;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.LayoutManager mLayoutManager2;
     private PersonAdapter mAdapter;
     private WaterFallAdapter mAdapter2;
+    private LinearLayout myinfo;
 
     private TextView myfollow;
     private TextView myfans;
@@ -150,88 +163,80 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         dialog.show();
     }
     private void init(){
+        bt_info = binding.settings;
+        myinfo= binding.space;
         touxiang=binding.tx;
         mRecyclerView = binding.recyclerView;
         mycontent = binding.myArticle;
         myfans = binding.myFans;
         myfollow = binding.myFollow;
+        bt_fav = binding.favourites;
+        bt_mine = binding.mine;
+        bt_fav.setOnClickListener(this);
+        bt_mine.setOnClickListener(this);
+        bt_info.setOnClickListener(this);
         mycontent.setOnClickListener(this);
         myfans.setOnClickListener(this);
         myfollow.setOnClickListener(this);
-        touxiang.setOnClickListener(this);
+        myinfo.setOnClickListener(this);
         //binding.refreshLayout.setEnableLoadMore(false);
         //下拉刷新
-        binding.refreshLayout.setOnRefreshListener(refreshLayout -> {
-            //刷新数据
-            switch (flag){
-                case -1:
-                    mAdapter2 = new WaterFallAdapter(getActivity(), buildData());
-                    mRecyclerView.setAdapter(mAdapter2);
-                    break;
-                case 0:
-                    mAdapter = new PersonAdapter(getActivity(), buildDatafans());
-                    mRecyclerView.setAdapter(mAdapter);
-                    break;
-                case 1:
-                    mAdapter = new PersonAdapter(getActivity(), buildDatafollow());
-                    mRecyclerView.setAdapter(mAdapter);
-                    break;
-            }
-            refreshLayout.finishRefresh(2000);//传入false表示刷新失败
-        });
-        //上拉加载
-        binding.refreshLayout.setOnLoadMoreListener(refreshLayout -> {
-            switch (flag){
-                case -1:
-                    mAdapter2 = new WaterFallAdapter(getActivity(), buildData());
-                    mRecyclerView.setAdapter(mAdapter2);
-                    break;
-                case 0:
-                    mAdapter = new PersonAdapter(getActivity(), buildDatafans());
-                    mRecyclerView.setAdapter(mAdapter);
-                    break;
-                case 1:
-                    mAdapter = new PersonAdapter(getActivity(), buildDatafollow());//////
-                    mRecyclerView.setAdapter(mAdapter);
-                    break;
-            }
-            refreshLayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
-        });
-        mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-        mAdapter = new PersonAdapter(getActivity(), buildDatafans());
-        mLayoutManager2 = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        SmartRefreshLayout refresh = binding.refreshLayout;
+        refresh.setRefreshHeader(new ClassicsHeader(getActivity()));
+        refresh.setRefreshFooter(new ClassicsFooter(getActivity()));
+        //refresh.setRefreshHeader(new DeliveryHeader(getActivity()));
+        refresh.setOnLoadMoreListener(refreshLayout -> {
 
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+
+                    mAdapter2.updateData(buildData());
+
+            refreshLayout.finishLoadMore();//传入false表示刷新失败
+        });
+        refresh.setOnRefreshListener(refreshLayout ->{
+            //刷新数据
+
+
+                    mAdapter2 = new WaterFallAdapter(getActivity(), buildData());
+                    mRecyclerView.setAdapter(mAdapter2);
+
+
+
+            refreshLayout.finishRefresh();//传入false表示刷新失败
+        });
+
+        //mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        //mAdapter = new PersonAdapter(getActivity(), buildDatafans());
+        mLayoutManager2 = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        mAdapter2 = new WaterFallAdapter(getActivity(), buildData());
+        mRecyclerView.setAdapter(mAdapter2);
+
+        mRecyclerView.setLayoutManager(mLayoutManager2);
+        mRecyclerView.setAdapter(mAdapter2);
 
 
     }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.my_article:
-                //刷新数据
-                flag=-1;
-                mRecyclerView.setLayoutManager(mLayoutManager2);
-                mAdapter2 = new WaterFallAdapter(getActivity(), buildData());
-                mRecyclerView.setAdapter(mAdapter2);
 
+            case R.id.space:
+                Intent intent = new Intent(getActivity(), FansFollowActivity.class);
+                startActivity(intent);
+                //showTypeDialog();
                 break;
-            case R.id.my_fans:
-                flag=0;
-                mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new PersonAdapter(getActivity(), buildDatafans());
-                mRecyclerView.setAdapter(mAdapter);
+            case R.id.settings:
+                Intent intent1 = new Intent(getActivity(), InfoActivity.class);
+                startActivity(intent1);
                 break;
-            case R.id.my_follow:
-                flag=1;
-                mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new PersonAdapter(getActivity(), buildDatafollow());
-                mRecyclerView.setAdapter(mAdapter);
+            case R.id.favourites:
+                Intent intent2 = new Intent(getActivity(), FavoriteActivity.class);
+                startActivity(intent2);
                 break;
-            case R.id.tx:
-                showTypeDialog();
+            case R.id.mine:
+                Intent intent3 = new Intent(getActivity(), MineActivity.class);
+                startActivity(intent3);
                 break;
+
         }
     }
     private List<WaterFallAdapter.PersonCard> buildData() {
@@ -266,7 +271,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
 
     private List<fans> buildDatafans() {
         List<fans> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             fans fans = new fans();
             fans.setFans_name("粉丝" + i);
             fans.setFans_headpic("https://i.postimg.cc/x1HHh4C7/1.png");

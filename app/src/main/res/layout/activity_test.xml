@@ -176,11 +176,17 @@ I/AwareBitmapCacher: init lrucache size: 2097152 pid=27876。"
                             android:layout_marginRight="10dp"
                             android:textSize="14sp"
                             android:textColor="#6e6e6e"/>
+
                     </LinearLayout>
+                    <TextView
+                        android:layout_margin="16dp"
+                        android:id="@+id/xxxzanle"
+                        android:text="爷傲奈我何、wulisimida等114人赞了"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:layout_marginTop="20dp"
                         android:layout_marginRight="16dp"
                         android:layout_marginLeft="16dp"
                         android:background="#e6e6e6"/>

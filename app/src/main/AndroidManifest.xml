@@ -32,6 +32,30 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.MineActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.FavoriteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.KindActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.Variouspot_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.FansFollowActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.PCenter_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.InfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.RecommendActivity"
             android:exported="false" />
         <activity
@@ -54,9 +78,6 @@
             android:name=".ui.InnerActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.SearchActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.ContentActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false" />
@@ -74,16 +95,6 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <service android:name="com.amap.api.location.APSService" />
-
-        <meta-data
-            android:name="com.amap.api.v2.apikey"
-            android:value="cd49a56f16ba1dbfd3004edd47d6fecb" />
-        <meta-data
-            android:name="design_width_in_dp"
-            android:value="360" />
-        <meta-data
-            android:name="design_height_in_dp"
-            android:value="640" />
 
         <activity
             android:name=".bottomnavi"

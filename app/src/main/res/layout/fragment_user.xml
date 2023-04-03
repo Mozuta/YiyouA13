@@ -17,21 +17,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/message"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_menu_camera" />
 
-        <ImageButton
-            android:id="@+id/settings"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_menu_slideshow" />
+
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/headin"
+        android:layout_marginTop="@dimen/dp_10"
+        android:id="@+id/space"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -39,14 +31,16 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/tx"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginStart="16dp"
             android:foreground="@drawable/circle_button"
             android:src="@drawable/lwr" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
@@ -55,14 +49,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:text="name"
-                android:textSize="30sp" />
+                android:gravity="top"
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
@@ -74,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="粉丝:"
-                    android:textSize="20sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/fansnum"
@@ -82,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="0"
-                    android:textSize="20sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/follow"
@@ -90,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="关注:"
-                    android:textSize="20sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/follownum"
@@ -98,23 +92,142 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="0"
-                    android:textSize="20sp" />
+                    android:textSize="16sp"/>
+                <TextView
+                    android:id="@+id/tz"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="帖子:"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tz_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="0"
+                    android:textSize="16sp" />
+
 
             </LinearLayout>
 
         </LinearLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/dp_10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="空间"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageView"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/right_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </LinearLayout>
 
     <View
-        android:layout_marginTop="6dp"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginTop="10dp"
         android:id="@+id/view"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/headin"
+        android:layout_height="0.5dp"
+        android:background="#dbdbdb"
+        />
+    <LinearLayout
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageButton
+                android:id="@+id/favourites"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@mipmap/spot_1"/>
+            <TextView
+                android:id="@+id/token_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收藏"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <ImageButton
+                android:id="@+id/settings"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@mipmap/spot_2" />
+            <TextView
+                android:id="@+id/token_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="设置"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageButton
+                android:id="@+id/mine"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@mipmap/spot_3"/>
+            <TextView
+                android:id="@+id/token_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的"/>
+
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginTop="10dp"
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#dbdbdb"
         />
 
+
     <LinearLayout
+        android:layout_marginTop="@dimen/dp_10"
         android:id="@+id/my_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -127,10 +240,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="我的文章"
+            android:text="动态"
             android:textSize="20sp" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/my_fans"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -142,12 +256,22 @@
         <TextView
             android:id="@+id/my_follow"
             android:layout_width="0dp"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:text="我的关注"
             android:textSize="20sp" />
     </LinearLayout>
+    <View
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginTop="10dp"
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#dbdbdb"
+        />
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
@@ -156,17 +280,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/my_content">
+        <com.scwang.smart.refresh.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
 
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
 
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/my_content" />
+        <com.scwang.smart.refresh.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 

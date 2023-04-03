@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_10"
+        >
+
+
+            <ImageView
+
+                android:id="@+id/shop_icon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/shop"
+
+                />
+
+
+        <LinearLayout
+            android:id="@+id/re01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+
+                android:layout_marginStart="5dp"
+                android:id="@+id/spot_name"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="西湖风景名胜区（西湖）"
+                android:textSize="18dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="bottom">
+
+
+                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                    android:id="@+id/spot_rating"
+                    style="@style/Widget.MaterialRatingBar.RatingBar"
+                    android:layout_width="80dp"
+                    android:layout_height="17dp"
+                    android:layout_marginStart="4dp"
+
+                    android:progressTint="#FF0000"
+
+
+                    android:isIndicator="true" />
+
+
+
+                <TextView
+                    android:id="@+id/spot_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="免费景点"
+                    android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/spot_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="龙井/虎跑"
+                    android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/spot_kind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="自然风光"
+                    android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/spot_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="24.6km"
+                    android:textSize="12sp" />
+
+
+
+            </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>
+</LinearLayout>

@@ -1,5 +1,7 @@
 package com.example.yiyoua13;
 
+import static java.security.AccessController.getContext;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -17,10 +19,14 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.yiyoua13.ui.InfoActivity;
+import com.example.yiyoua13.ui.MineActivity;
 import com.example.yiyoua13.variousclass.fans;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.interfaces.OnSelectListener;
 
 import java.io.Serializable;
 import java.util.List;
@@ -48,6 +54,11 @@ public class WaterFallAdapter extends RecyclerView.Adapter {
         mContext = context;
         mData = data;
     }
+    public void updateData(List<PersonCard> data) {
+        //data中所有数据都添加到mData中
+        mData.addAll(data);
+        notifyDataSetChanged();
+    }
 
 
     @NonNull
@@ -69,6 +80,39 @@ public class WaterFallAdapter extends RecyclerView.Adapter {
         holder2.content.setText(personCard.content);
         holder2.like.setText(personCard.like);
 
+        //长按事件
+        holder2.clickView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                //如果当前是InfoActivity，那么显示Toast
+                if (mContext instanceof MineActivity) {
+                    int position0 = holder.getBindingAdapterPosition();
+                    PersonCard personCard = mData.get(position0);
+                    Toast.makeText(mContext, "长按"+personCard.name, Toast.LENGTH_SHORT).show();
+                    new XPopup.Builder(mContext)
+                            .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
+                            .asAttachList(new String[]{"删除", "取消"},
+                                    new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher},
+                                    new OnSelectListener() {
+                                        @Override
+                                        public void onSelect(int position, String text) {
+                                            //删除
+                                            if (position == 0) {
+                                                mData.remove(position0);
+                                                notifyDataSetChanged();
+                                            }
+                                            //取消
+                                            else if (position == 1) {
+                                                Toast.makeText(mContext, "取消", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    })
+                            .show();
+                }
+                return true;
+            }
+        });
+
         //final MyViewHolder holder = new MyViewHolder(view);
         ((MyViewHolder) holder).clickView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +125,17 @@ public class WaterFallAdapter extends RecyclerView.Adapter {
                 //销毁当前Activity
                 //((Activity)mContext).finish();
             }
+
+
+           /* public void onLongClick(View v) {
+                //如果当前是InfoActivity，那么显示Toast
+                if (mContext instanceof MineActivity) {
+                    int position = holder.getBindingAdapterPosition();
+                    PersonCard personCard = mData.get(position);
+                    Toast.makeText(mContext, "长按"+personCard.name, Toast.LENGTH_SHORT).show();
+                }
+
+            }*/
         });
         ((MyViewHolder) holder).likeButton.setOnLikeListener(new OnLikeListener() {
             @Override

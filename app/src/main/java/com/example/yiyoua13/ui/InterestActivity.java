@@ -24,7 +24,6 @@ import com.example.yiyoua13.MainActivity;
 import com.example.yiyoua13.R;
 import com.example.yiyoua13.bottomnavi;
 import com.example.yiyoua13.databinding.ActivityInterestBinding;
-import com.example.yiyoua13.databinding.ActivitySearchBinding;
 import com.example.yiyoua13.variousclass.ChoseItem;
 
 import org.greenrobot.eventbus.EventBus;

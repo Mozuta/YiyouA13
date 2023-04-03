@@ -16,6 +16,9 @@ import android.view.Window;
 
 import com.example.yiyoua13.ui.InterestActivity;
 
+import pub.devrel.easypermissions.EasyPermissions;
+import pub.devrel.easypermissions.PermissionRequest;
+
 public class MainActivity extends Activity {
 
     @SuppressLint("HandlerLeak")
@@ -50,6 +53,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         //getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(R.layout.activity_main);
+        /*EasyPermissions.requestPermissions(
+                new PermissionRequest.Builder(this, RC_CAMERA_AND_LOCATION, perms)
+                        .setRationale(R.string.camera_and_location_rationale)
+                        .setPositiveButtonText(R.string.rationale_ask_ok)
+                        .setNegativeButtonText(R.string.rationale_ask_cancel)
+                        .setTheme(R.style.my_fancy_style)
+                        .build());*/
         setupWindowAnimations();
         handler.sendEmptyMessageDelayed(0,1000);//4000毫秒
 

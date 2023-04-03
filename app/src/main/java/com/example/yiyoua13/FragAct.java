@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.transition.TransitionInflater;
@@ -17,10 +18,15 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.yiyoua13.task.ButtonLoaderTask;
+import com.example.yiyoua13.task.ImageLoaderTask;
+import com.example.yiyoua13.task.TextLoaderTask;
 import com.example.yiyoua13.ui.InterestActivity;
+import com.example.yiyoua13.ui.Url_Request;
 import com.example.yiyoua13.variousclass.Login;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -42,9 +48,12 @@ import okhttp3.Response;
 public class FragAct extends Activity {
     String url_code="http://192.168.79.206:8081/user/code";
     String url_login="http://192.168.79.206:8081/user/login";
+    String url_userme="http://192.168.79.206:8081/user/me";
+    String value="8d3c1513fcb8436ca79039f46847d216";
     private Button bt;
     private Button test;
     private SharedPreferences sp;
+    private ImageView imageView;
     private String edit_userNameValue,edit_passwordValue,user_id;
     private EditText et;
     private EditText et_2;
@@ -212,6 +221,7 @@ public class FragAct extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_frag);
+        imageView=(ImageView)findViewById(R.id.iv_1);
 
         sp = this.getSharedPreferences("Login", MODE_PRIVATE);
 
@@ -231,8 +241,29 @@ public class FragAct extends Activity {
         ask_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //获取输入的手机号
-                //sendRequestWithOkHttp(url_code);
+                //获取输入的手机号Url_Request.getUrl_head()+"/user/me"
+                //sendRequestWithOkHttp(url_code);//验证码
+                //string转换成url
+                Url_Request.sendRequestUserMe(Url_Request.getUrl_head()+"/user/me", value, new Url_Request.OnIconResponseListener() {
+                    @Override
+                    public void onIconResponse(String icon) {
+                        if (icon == null) {
+                            icon = "https://i.postimg.cc/k4wXb936/flower.jpg";
+                        }
+                        new ImageLoaderTask(imageView).execute(Url_Request.getUrl_head()+icon);
+                        Log.d("UserMe", "parseJSONWithGSON: " + icon);
+                        //在这里进行下一步操作
+                    }
+
+                    @Override
+                    public void onUserNameResponse(String responseData) {
+                        ButtonLoaderTask task = new ButtonLoaderTask(bt, responseData);
+                        task.execute();
+                    }
+                });
+
+
+                //Url_Request.loadImageFromUrl(FragAct.this,(),imageView);
             }
         });
 
@@ -244,7 +275,7 @@ public class FragAct extends Activity {
                 edit_userNameValue = et.getText().toString();
                 edit_passwordValue = et_2.getText().toString();
                 //获取输入的手机号
-               //sendRequestWithOkHttp_login(url_login);
+               sendRequestWithOkHttp_login(url_login);
                 //Gson
                 if (remember.isChecked()){
                     SharedPreferences.Editor editor = sp.edit();
@@ -253,8 +284,8 @@ public class FragAct extends Activity {
                     editor.putString("USER_ID",user_id+"user_id");
                     editor.commit();
                 }
-                Intent intent = new Intent(FragAct.this, InterestActivity.class);
-                FragAct.this.startActivity(intent);
+                /*Intent intent = new Intent(FragAct.this, InterestActivity.class);
+                FragAct.this.startActivity(intent);*/
             }
         });
         remember.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

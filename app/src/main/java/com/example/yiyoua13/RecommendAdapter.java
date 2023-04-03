@@ -32,6 +32,11 @@ public class RecommendAdapter extends RecyclerView.Adapter {
         mContext = context;
         rcmList = data;
     }
+    public void updateData(List<Recommend> data) {
+        //data中所有数据都添加到mData中
+        rcmList.addAll(data);
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override

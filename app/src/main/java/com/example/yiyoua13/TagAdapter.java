@@ -45,6 +45,11 @@ public class TagAdapter extends RecyclerView.Adapter{
         }
 
     }
+    public void updateData(List<tag> data) {
+        //data中所有数据都添加到mData中
+        mData.addAll(data);
+        notifyDataSetChanged();
+    }
 
     public TagAdapter(Context context, List<tag> data) {
         mContext = context;

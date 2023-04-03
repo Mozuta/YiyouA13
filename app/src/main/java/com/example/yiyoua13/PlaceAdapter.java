@@ -15,6 +15,11 @@ import java.util.List;
 public class PlaceAdapter extends BaseAdapter {
     private List<Place> mPlace;
     private Context mContext;
+    public void updateData(List<Place> data) {
+        //data中所有数据都添加到mData中
+        mPlace.addAll(data);
+        notifyDataSetChanged();
+    }
 
     public PlaceAdapter(List<Place> places, Context context) {
         this.mPlace = places;

@@ -22,11 +22,13 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="main_menu_animstyle">
         <item name="android:windowEnterAnimation">@anim/photo_dialog_in_anim</item>
         <item name="android:windowExitAnimation">@anim/photo_dialog_out_anim</item>
         <item name="overlapAnchor">false</item>
     </style>
+
     <style name="transparentFrameWindowStyle" parent="android:style/Theme.Dialog">
         <item name="android:windowBackground">@drawable/photo_choose_bg</item>
         <item name="overlapAnchor">false</item>
@@ -35,10 +37,10 @@
     <style name="Theme.MyApplication.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.MyApplication.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-    <style name="AppTheme" >
+
+    <style name="AppTheme">
 
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-
 
 
         <item name="android:windowNoTitle">true</item>

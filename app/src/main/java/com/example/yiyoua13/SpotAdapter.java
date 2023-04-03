@@ -28,6 +28,11 @@ public class SpotAdapter extends RecyclerView.Adapter<SpotAdapter.SpotViewHolder
         this.spots = spots;
         this.context = context;
     }
+    public void updateData(List<Spot> data) {
+        //data中所有数据都添加到mData中
+        spots.addAll(data);
+        notifyDataSetChanged();
+    }
     @NonNull
     @Override
     public SpotViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
