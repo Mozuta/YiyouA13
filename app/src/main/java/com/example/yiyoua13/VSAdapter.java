@@ -22,6 +22,7 @@ public class VSAdapter extends RecyclerView.Adapter {
     private List<VSBean> mData;
 
     public static class VSBean {
+        public String id;
         public String name;
         public String stars;
         public String price;
@@ -83,7 +84,7 @@ public class VSAdapter extends RecyclerView.Adapter {
                 int position = holder.getBindingAdapterPosition();
                 VSBean bean = mData.get(position);
                 Intent intent = new Intent(mContext, SpotActivity.class);
-                intent.putExtra("spot", bean.name);
+                intent.putExtra("id", bean.id);
                 mContext.startActivity(intent);
                 //销毁当前Activity
                 //((Activity)mContext).finish();

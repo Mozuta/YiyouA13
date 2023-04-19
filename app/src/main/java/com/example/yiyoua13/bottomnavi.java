@@ -1,5 +1,7 @@
 package com.example.yiyoua13;
 
+import static java.security.AccessController.getContext;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -7,15 +9,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.media.AsyncPlayer;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -28,12 +26,30 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.DPoint;
-import com.amap.api.maps.MapFragment;
 import com.amap.api.maps.MapsInitializer;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.track.AMapTrackClient;
+import com.amap.api.track.ErrorCode;
+import com.amap.api.track.OnTrackLifecycleListener;
+import com.amap.api.track.TrackParam;
+import com.amap.api.track.query.entity.Point;
+import com.amap.api.track.query.entity.TrackPoint;
+import com.amap.api.track.query.model.AddTerminalRequest;
+import com.amap.api.track.query.model.AddTerminalResponse;
+import com.amap.api.track.query.model.AddTrackResponse;
+import com.amap.api.track.query.model.DistanceResponse;
+import com.amap.api.track.query.model.HistoryTrackResponse;
+import com.amap.api.track.query.model.LatestPointResponse;
+import com.amap.api.track.query.model.OnTrackListener;
+import com.amap.api.track.query.model.ParamErrorResponse;
+import com.amap.api.track.query.model.QueryTerminalRequest;
+import com.amap.api.track.query.model.QueryTerminalResponse;
+import com.amap.api.track.query.model.QueryTrackResponse;
+import com.example.yiyoua13.ui.Url_Request;
 import com.example.yiyoua13.ui.User.UserFragment;
 import com.example.yiyoua13.ui.dashboard.DashboardFragment;
 import com.example.yiyoua13.ui.home.HomeFragment;
-import com.example.yiyoua13.ui.notifications.NotificationsFragment;
+import com.example.yiyoua13.utils.StatusBarUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -48,29 +64,34 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.yiyoua13.databinding.ActivityBottomnaviBinding;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.speech.tts.TextToSpeech;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class bottomnavi extends AppCompatActivity {
-    //public static final int GEOFENCE_IN 进入地理围栏
-//public static final int GEOFENCE_OUT 退出地理围栏
-//public static final int GEOFENCE_STAYED 停留在地理围栏内10分钟
 
     private ViewPager mcContainer;
     private List<Fragment> fragmentList;
+    private String user_token, user_id;
 
 
     private TextToSpeech tts;
+    private int counter=0;
+    private int counter2=0;
     public static class location{
         private Double Longitude;
         private Double Latitude;
@@ -90,7 +111,7 @@ public class bottomnavi extends AppCompatActivity {
     public static boolean BroadcastPermission = true;
     public static boolean Isbroadcast = false;
 
-//https://link.jscdn.cn/sharepoint/aHR0cHM6Ly9vbmVkcnYtbXkuc2hhcmVwb2ludC5jb20vOnU6L2cvcGVyc29uYWwvc3Rvcl9vbmVkcnZfb25taWNyb3NvZnRfY29tL0VTUS1YYWZvbmxKRXE4eUVIcFgwQkRRQnlCVmV4NHhEbEJjYXZaZHdpUnpvNEE.mp3
+
     public static final String GEO_FENCE_BROADCAST_ACTION = "com.example.yiyoua13.GEOFENCE_BROADCAST_ACTION";
     private ActivityBottomnaviBinding binding;
     //声明AMapLocationClientOption对象
@@ -102,8 +123,21 @@ public class bottomnavi extends AppCompatActivity {
     AsyncPlayer player = new AsyncPlayer("music");
     public static location loc = new location();
     //private MediaPlayer mediaPlayer=new MediaPlayer();
-    private String example="https://link.jscdn.cn/sharepoint/aHR0cHM6Ly9vbmVkcnYtbXkuc2hhcmVwb2ludC5jb20vOnU6L2cvcGVyc29uYWwvc3Rvcl9vbmVkcnZfb25taWNyb3NvZnRfY29tL0VTUS1YYWZvbmxKRXE4eUVIcFgwQkRRQnlCVmV4NHhEbEJjYXZaZHdpUnpvNEE.mp3";
+
     //create button to jump to FragAct.java
+    public String generateRandomString() {
+        String prefix = "user-";
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        int length = 6;
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+        sb.append(prefix);
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(characters.length());
+            sb.append(characters.charAt(index));
+        }
+        return sb.toString();
+    }
 
     public void PlayMusic(String str) throws IOException {
         Log.e("播放音乐","播放音乐");
@@ -133,32 +167,22 @@ public class bottomnavi extends AppCompatActivity {
                 if (aMapLocation.getErrorCode() == 0) {
                     loc.Longitude = (aMapLocation.getLongitude());
                     loc.Latitude = (aMapLocation.getLatitude());
-                    Log.e("位置：", aMapLocation.getAddress());
-                    Log.e("经度：", aMapLocation.getLongitude() + "");
-                    Log.e("纬度：", aMapLocation.getLatitude() + "");
-                    Log.e("精度：", aMapLocation.getAccuracy() + "");
-                    Log.e("时间：", aMapLocation.getTime() + "");
-                    Log.e("速度：", aMapLocation.getSpeed() + "");
-                    Log.e("方向：", aMapLocation.getBearing() + "");
-                    Log.e("海拔：", aMapLocation.getAltitude() + "");
-                    Log.e("国家：", aMapLocation.getCountry() + "");
-                    Log.e("省：", aMapLocation.getProvince() + "");
-                    Log.e("市：", aMapLocation.getCity() + "");
-                    Log.e("城市编码：", aMapLocation.getCityCode() + "");
-                    Log.e("区：", aMapLocation.getDistrict() + "");
-                    Log.e("区域编码：", aMapLocation.getAdCode() + "");
-                    Log.e("街道：", aMapLocation.getStreet() + "");
-                    Log.e("街道编码：", aMapLocation.getStreetNum() + "");
-                    Log.e("建筑物：", aMapLocation.getAoiName() + "");
-                    Log.e("室内定位：", aMapLocation.getBuildingId() + "");
-                    Log.e("室内定位：", aMapLocation.getFloor() + "");
-                    Log.e("室内定位：", aMapLocation.getGpsAccuracyStatus() + "");
-                    Log.e("室内定位：", aMapLocation.getLocationDetail() + "");
-                    Log.e("室内定位：", aMapLocation.getLocationType() + "");
-                    Log.e("室内定位：", aMapLocation.getPoiName() + "");
-                    Log.e("室内定位：", aMapLocation.getRoad() + "");
-                    Log.e("室内定位：", aMapLocation.getRoad() + "");
-                    Log.e("室内定位：", aMapLocation.getSatellites() + "");
+                    counter++;
+                    if (counter==2& !user_token.equals("")){
+                        Url_Request.sendRequestUserSendLocation(Url_Request.getUrl_head()+"/user/sendLocation",user_token,loc.Longitude.toString(),loc.Latitude.toString());
+                        Log.e("发送位置",loc.Longitude.toString()+loc.Latitude.toString());
+
+
+                    }
+                    if (counter>30){
+                        counter=0;
+                        counter2++;
+                        if (counter2>6){
+                            Url_Request.sendRequestSign_In(Url_Request.getUrl_head()+"/user/sign_in",user_token,user_id);
+                        }
+                    }
+
+
                 } else {
                     //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
                     Log.e("AmapError", "location Error, ErrCode:"
@@ -205,6 +229,7 @@ public class bottomnavi extends AppCompatActivity {
                     Log.e("围栏状态", status + "");
                     Log.e("围栏id", fenceId + "");
                     Log.e("围栏自定义id", customId + "");
+                    Log.e("围栏广播", "围栏广播接收成功");
                 }
             }
             else {
@@ -219,8 +244,447 @@ public class bottomnavi extends AppCompatActivity {
 
         binding = ActivityBottomnaviBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        StatusBarUtil.setTranslucentStatus(this);
+        //一般的手机的状态栏文字和图标都是白色的, 可如果你的应用也是纯白色的, 或导致状态栏文字看不清
+        //所以如果你是这种情况,请使用以下代码, 设置状态使用深色文字图标风格, 否则你可以选择性注释掉这个if内容
+        if (!StatusBarUtil.setStatusBarDarkTheme(this, true)) {
+            //如果不支持设置深色风格 为了兼容总不能让状态栏白白的看不清, 于是设置一个状态栏颜色为半透明,
+            //这样半透明+白=灰, 状态栏的文字能看得清
+            StatusBarUtil.setStatusBarColor(this,0x55000000);
+        }
+
         MapsInitializer.updatePrivacyAgree(this, true);
         MapsInitializer.updatePrivacyShow(this, true, true);
+
+
+        final AMapTrackClient aMapTrackClient = new AMapTrackClient(getApplicationContext());//初始化轨迹服务客户端
+
+        aMapTrackClient.setInterval(3, 15);//设置定位和打包周期
+        aMapTrackClient.setCacheSize(50);//设置本地缓存大小
+        final long serviceId = 915218;  // 这里填入你创建的服务id
+         String terminalName = null;
+        //Timer timer = new Timer();
+        SharedPreferences sp =this.getSharedPreferences("Login", MODE_PRIVATE);
+        if (sp.getString("terminal", "").equals("")) {
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("terminal", generateRandomString());
+            editor.commit();
+            terminalName=sp.getString("terminal","");
+
+        }else{
+            terminalName=sp.getString("terminal","");
+        }
+        Log.e("terminal",terminalName);
+        user_token=sp.getString("TOKEN","");
+        Log.e("token",user_token);
+
+        if (user_token.equals("")){
+        }else{
+            Url_Request.sendRequestUserMe(Url_Request.getUrl_head() + "/user/me", user_token, bottomnavi.this, new Url_Request.OnIconResponseListener() {
+                @Override
+                public void onBeanResponse(Object bean) {
+
+                }
+            });
+        }
+
+
+        user_id=sp.getString("USER_ID","");
+
+
+
+
+
+
+        final OnTrackLifecycleListener onTrackLifecycleListener = new OnTrackLifecycleListener() {
+
+            @Override
+            public void onBindServiceCallback(int i, String s) {
+
+            }
+
+            @Override
+            public void onStartGatherCallback(int status, String msg) {
+                if (status == ErrorCode.TrackListen.START_GATHER_SUCEE ||
+                        status == ErrorCode.TrackListen.START_GATHER_ALREADY_STARTED) {
+                    Log.e("轨迹", "定位采集开启成功！");
+                    Toast.makeText(bottomnavi.this, "定位采集开启成功！", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e("轨迹", msg);
+                    Toast.makeText(bottomnavi.this, "定位采集启动异常，" + msg, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onStartTrackCallback(int status, String msg) {
+                if (status == ErrorCode.TrackListen.START_TRACK_SUCEE ||
+                        status == ErrorCode.TrackListen.START_TRACK_SUCEE_NO_NETWORK ||
+                        status == ErrorCode.TrackListen.START_TRACK_ALREADY_STARTED) {
+                    // 服务启动成功，继续开启收集上报
+                    aMapTrackClient.startGather(this);
+                } else {
+                    Log.e("轨迹", msg);
+                    Toast.makeText(bottomnavi.this, "轨迹上报服务服务启动异常，" + msg, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onStopGatherCallback(int i, String s) {
+
+            }
+
+            @Override
+            public void onStopTrackCallback(int i, String s) {
+
+            }
+        };
+        SharedPreferences sharedPreferences = getSharedPreferences("track", MODE_PRIVATE);
+        final long terminalId = sharedPreferences.getLong("terminalId", 0);
+        Log.e("轨迹终端id1", terminalId + "");
+        long flagtrack = sharedPreferences.getLong("trackId", 0);
+        if (flagtrack!=0){
+
+        }else {
+            aMapTrackClient.addTrack(new com.amap.api.track.query.model.AddTrackRequest(serviceId, terminalId), new OnTrackListener() {
+
+
+                @Override
+                public void onQueryTerminalCallback(QueryTerminalResponse queryTerminalResponse) {
+
+                }
+
+                @Override
+                public void onCreateTerminalCallback(AddTerminalResponse addTerminalResponse) {
+
+                }
+
+                @Override
+                public void onDistanceCallback(DistanceResponse distanceResponse) {
+
+                }
+
+                @Override
+                public void onLatestPointCallback(LatestPointResponse latestPointResponse) {
+
+                }
+
+                @Override
+                public void onHistoryTrackCallback(HistoryTrackResponse historyTrackResponse) {
+
+                }
+
+                @Override
+                public void onQueryTrackCallback(QueryTrackResponse queryTrackResponse) {
+
+                }
+
+                @Override
+                public void onAddTrackCallback(AddTrackResponse addTrackResponse) {
+                    if (addTrackResponse.isSuccess()) {
+                        SharedPreferences sharedPreferences = getSharedPreferences("track", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putLong("trackId", addTrackResponse.getTrid());
+                        editor.apply();
+                        Log.e("轨迹callback", "轨迹上报服务服务启动成功！"+addTrackResponse.getTrid()+"终端id"+terminalId);
+
+
+                    } else {
+                        Log.e("轨迹", "轨迹上报服务服务启动失败！"+addTrackResponse.getErrorMsg());
+                    }
+                }
+
+                @Override
+                public void onParamErrorCallback(ParamErrorResponse paramErrorResponse) {
+
+                }
+            });
+        }
+
+        String finalTerminalName = terminalName;
+        Log.e("final", finalTerminalName + "");
+        aMapTrackClient.queryTerminal(new QueryTerminalRequest(serviceId, terminalName), new OnTrackListener() {
+
+            @Override
+            public void onQueryTerminalCallback(QueryTerminalResponse queryTerminalResponse) {
+                if (queryTerminalResponse.isSuccess()) {
+                    if (queryTerminalResponse.getTid() <= 0) {
+                        // terminal还不存在，先创建
+                        aMapTrackClient.addTerminal(new AddTerminalRequest(finalTerminalName, serviceId), new OnTrackListener() {
+
+                            @Override
+                            public void onQueryTerminalCallback(QueryTerminalResponse queryTerminalResponse) {
+
+                            }
+
+                            @Override
+                            public void onCreateTerminalCallback(AddTerminalResponse addTerminalResponse) {
+                                if (addTerminalResponse.isSuccess()) {
+                                    // 创建完成，开启猎鹰服务
+                                    long terminalId = addTerminalResponse.getTid();
+                                    Log.e("轨迹", "terminalId: " + terminalId);
+                                    SharedPreferences sharedPreferences = getSharedPreferences("track", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putLong("terminalId", terminalId);
+                                    editor.apply();
+
+                                    Log.e("轨迹终端id1",  sharedPreferences.getLong("terminalId",0)+ "");
+                                    long trackId = sharedPreferences.getLong("trackId", 0);
+                                    Log.e("轨迹", "trackId: " + trackId);
+                                    TrackParam trackParam = new TrackParam(serviceId, terminalId);
+                                    trackParam.setTrackId(trackId);
+                                    aMapTrackClient.startTrack(trackParam, onTrackLifecycleListener);
+
+
+                                } else {
+                                    // 请求失败
+                                    Log.e("轨迹", "请求失败，" + addTerminalResponse.getErrorMsg());
+                                    Toast.makeText(bottomnavi.this, "请求失败，" + addTerminalResponse.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onDistanceCallback(DistanceResponse distanceResponse) {
+
+                            }
+
+                            @Override
+                            public void onLatestPointCallback(LatestPointResponse latestPointResponse) {
+
+                            }
+
+                            @Override
+                            public void onHistoryTrackCallback(HistoryTrackResponse historyTrackResponse) {
+
+                            }
+
+                            @Override
+                            public void onQueryTrackCallback(QueryTrackResponse queryTrackResponse) {
+
+                            }
+
+                            @Override
+                            public void onAddTrackCallback(AddTrackResponse addTrackResponse) {
+
+                            }
+
+                            @Override
+                            public void onParamErrorCallback(ParamErrorResponse paramErrorResponse) {
+
+                            }
+                        });
+                    } else {
+                        // terminal已经存在，直接开启猎鹰服务
+
+                        long terminalId = queryTerminalResponse.getTid();
+                        Log.e("轨迹", "terminalId已存在: " + terminalId);
+                        SharedPreferences sharedPreferences = getSharedPreferences("track", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putLong("terminalId", terminalId);
+                        editor.apply();
+                        Log.e("轨迹终端id1",  sharedPreferences.getLong("terminalId",0)+ "");
+                        long trackId = sharedPreferences.getLong("trackId", 0);
+                        Log.e("轨迹track", "trackId已存在: " + trackId);
+                        TrackParam trackParam = new TrackParam(serviceId, terminalId);
+                        trackParam.setTrackId(trackId);
+                        aMapTrackClient.startTrack(trackParam, onTrackLifecycleListener);
+                        Log.e("轨迹", "trackId已存在: " + trackId);
+
+                    }
+                } else {
+                    // 请求失败
+                    Log.e("轨迹", "请求失败，" + queryTerminalResponse.getErrorMsg());
+                    Toast.makeText(bottomnavi.this, "请求失败，" + queryTerminalResponse.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCreateTerminalCallback(AddTerminalResponse addTerminalResponse) {
+
+            }
+
+            @Override
+            public void onDistanceCallback(DistanceResponse distanceResponse) {
+
+            }
+
+            @Override
+            public void onLatestPointCallback(LatestPointResponse latestPointResponse) {
+
+            }
+
+            @Override
+            public void onHistoryTrackCallback(HistoryTrackResponse historyTrackResponse) {
+
+            }
+
+            @Override
+            public void onQueryTrackCallback(QueryTrackResponse queryTrackResponse) {
+
+            }
+
+            @Override
+            public void onAddTrackCallback(AddTrackResponse addTrackResponse) {
+
+            }
+
+            @Override
+            public void onParamErrorCallback(ParamErrorResponse paramErrorResponse) {
+
+            }
+        });
+
+
+        //final long trackId = sharedPreferences.getLong("trackId", 0);
+
+        //下面是获取历史位置
+        // 搜索最近12小时以内上报的属于某个轨迹的轨迹点信息，散点上报不会包含在该查询结果中
+
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                final long trackId = sharedPreferences.getLong("trackId", 0);
+                com.amap.api.track.query.model.QueryTrackRequest queryTrackRequest = new com.amap.api.track.query.model.QueryTrackRequest(
+                        serviceId,
+                        terminalId,
+                        trackId,	// 轨迹id，传-1表示查询所有轨迹
+                        System.currentTimeMillis() - 5 * 60 * 1000,
+                        System.currentTimeMillis(),
+                        0,      // 不启用去噪
+                        0,   // 绑路
+                        0,      // 不进行精度过滤
+                        com.amap.api.track.query.entity.DriveMode.DRIVING,  // 当前仅支持驾车模式
+                        0,     // 距离补偿
+                        100,   // 距离补偿，只有超过5km的点才启用距离补偿
+                        1,  // 结果应该包含轨迹点信息
+                        1,  // 返回第1页数据，由于未指定轨迹，分页将失效
+                        300    // 一页不超过100条
+                );
+                aMapTrackClient.queryTerminalTrack(queryTrackRequest, new OnTrackListener() {
+
+                    @Override
+                    public void onQueryTerminalCallback(QueryTerminalResponse queryTerminalResponse) {
+
+                    }
+
+                    @Override
+                    public void onCreateTerminalCallback(AddTerminalResponse addTerminalResponse) {
+
+                    }
+
+                    @Override
+                    public void onDistanceCallback(DistanceResponse distanceResponse) {
+
+                    }
+
+                    @Override
+                    public void onLatestPointCallback(LatestPointResponse latestPointResponse) {
+
+                    }
+
+                    @Override
+                    public void onHistoryTrackCallback(HistoryTrackResponse historyTrackResponse) {
+
+                    }
+
+                    @Override
+                    public void onQueryTrackCallback(QueryTrackResponse queryTrackResponse) {
+                        if (queryTrackResponse.isSuccess()) {
+
+                            JsonArray jsonArray = new JsonArray();
+                            List<com.amap.api.track.query.entity.Track> tracks =  queryTrackResponse.getTracks();
+                            Log.e("轨迹", "查询成功"+terminalId+"  "+tracks.size());
+                            //输出所有点的经纬度
+                            for (int i = 0; i < tracks.size(); i++) {
+                                List<com.amap.api.track.query.entity.Point> points = tracks.get(i).getPoints();
+                                for (int j = 0; j < points.size(); j++) {
+                                    Log.e("轨迹", "经度: " + points.get(j).getLng() + "纬度: " + points.get(j).getLat());
+                                    Log.e("轨迹", "时间: " + points.get(j).getTime()+"  "+terminalId);
+                                    JsonObject jsonObject = new JsonObject();
+                                    jsonObject.addProperty("x", points.get(j).getLng());
+                                    jsonObject.addProperty("y", points.get(j).getLat());
+                                    jsonObject.addProperty("times", points.get(j).getTime());
+                                    jsonObject.addProperty("terminalId", terminalId);
+                                    jsonArray.add(jsonObject);
+                                }
+
+                            }
+                            Url_Request.sendRequestUserGetXY(Url_Request.getUrl_head()+"/user/getXY",jsonArray);
+
+                            // 查询成功，tracks包含所有轨迹及相关轨迹点信息
+                        } else {
+                            // 查询失败
+                            Log.e("轨迹", "查询失败，" + queryTrackResponse.getErrorMsg());
+                        }
+                    }
+
+                    @Override
+                    public void onAddTrackCallback(AddTrackResponse addTrackResponse) {
+
+                    }
+
+                    @Override
+                    public void onParamErrorCallback(ParamErrorResponse paramErrorResponse) {
+
+                    }
+                });
+            }
+        }, 0,  60*1000); // 每分钟执行一次任务
+
+        /*aMapTrackClient.queryLatestPoint(new LatestPointRequest(serviceId, terminalId), new OnTrackListener() {
+
+            @Override
+            public void onQueryTerminalCallback(QueryTerminalResponse queryTerminalResponse) {
+
+            }
+
+            @Override
+            public void onCreateTerminalCallback(AddTerminalResponse addTerminalResponse) {
+
+            }
+
+            @Override
+            public void onDistanceCallback(DistanceResponse distanceResponse) {
+
+            }
+
+            @Override
+            public void onLatestPointCallback(LatestPointResponse latestPointResponse) {
+                if (latestPointResponse.isSuccess()) {
+                    Point point = latestPointResponse.getLatestPoint().getPoint();
+                    // 查询实时位置成功，point为实时位置信息
+                } else {
+                    // 查询实时位置失败
+                }
+            }
+
+            @Override
+            public void onHistoryTrackCallback(HistoryTrackResponse historyTrackResponse) {
+
+            }
+
+            @Override
+            public void onQueryTrackCallback(QueryTrackResponse queryTrackResponse) {
+
+            }
+
+            @Override
+            public void onAddTrackCallback(AddTrackResponse addTrackResponse) {
+
+            }
+
+            @Override
+            public void onParamErrorCallback(ParamErrorResponse paramErrorResponse) {
+
+            }
+        });*/
+
+
+
+
+
+
+
         //申请定位权限
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -244,18 +708,14 @@ public class bottomnavi extends AppCompatActivity {
         mcContainer = binding.vpContainer;
         BottomNavigationView navView = findViewById(R.id.nav_view);
         //以上是对接围栏的代码
+
+        //滑动切换fragmentpart1
         fragmentList=new ArrayList<Fragment>();
         fragmentList.add(new HomeFragment());
         fragmentList.add(new DashboardFragment());
         fragmentList.add(new UserFragment());
         mcContainer.setAdapter(new AppFragmentPageAdapter(getSupportFragmentManager(),fragmentList));
-        //在item2处禁止滑动
-        /*mcContainer.setOnTouchListener((v, event) -> {
-            if(mcContainer.getCurrentItem()==1){
-                return true;
-            }
-            return false;
-        });*/
+        //滑动切换fragmentpart2
         mcContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -280,7 +740,14 @@ public class bottomnavi extends AppCompatActivity {
                                 navView.getMenu().getItem(1).setChecked(true);
                                 break;
                             case 2:
+
                                 navView.getMenu().getItem(2).setChecked(true);
+
+
+                                //滚动到item0
+
+                                //切换到item1
+
                                 break;
                             case 3:
                                 navView.getMenu().getItem(3).setChecked(true);
@@ -378,17 +845,22 @@ public class bottomnavi extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
                         mcContainer.setCurrentItem(0);
+                        //navController.navigate(R.id.navigation_home);
                         //设置颜色
                         //navView.setItemIconTintList(ColorStateList.valueOf(Color.parseColor("#FF0000")));
 
                         break;
                     case R.id.navigation_dashboard:
                         mcContainer.setCurrentItem(1);
+                        //navController.navigate(R.id.navigation_dashboard);
                         break;
                     /*case R.id.navigation_notifications:
                         mcContainer.setCurrentItem(2);
                         break;*/
                     case R.id.navigation_user:
+                        //navController.navigate(R.id.navigation_user);
+
+                        //mcContainer.setCurrentItem(3);
                         mcContainer.setCurrentItem(2);
                         break;
                 }
@@ -397,6 +869,8 @@ public class bottomnavi extends AppCompatActivity {
         });
         //设置定位回调监听
         mLocationClient.setLocationListener(mLocationListener);
+
+
         //初始化AMapLocationClientOption对象
         mLocationOption = new AMapLocationClientOption();
         //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
@@ -418,6 +892,25 @@ public class bottomnavi extends AppCompatActivity {
         mLocationClient.setLocationOption(mLocationOption);
         //启动定位
         mLocationClient.startLocation();
+        //设置定位间隔,单位毫秒,默认为2000ms，最低1000ms。
+        mLocationOption.setInterval(2000);
+        SharedPreferences.Editor editor = getSharedPreferences("data", MODE_PRIVATE).edit();
+        editor.putBoolean("isPlay", true);
+        editor.apply();
+        //mLocationOption.
+        //设置监听间隔，单位毫秒，默认为30000ms，最低10000ms。
+        //mLocationOption.setGpsFirst(true);
+
+//        Log.e("定位", "onCreate: " +loc.Longitude.toString()+loc.Latitude.toString() );
+        /*timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                // 在这里发送网络请求
+
+                Url_Request.sendRequestUserSendLocation(Url_Request.getUrl_head()+"/user/sendLocation",user_token,loc.Longitude.toString(),loc.Latitude.toString());
+                Log.e("发送位置",loc.Longitude.toString()+loc.Latitude.toString());
+            }
+        }, 0, 60 * 1000); // 每分钟执行一次任务*/
 
     }
 

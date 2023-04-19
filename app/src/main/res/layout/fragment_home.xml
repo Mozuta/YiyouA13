@@ -13,34 +13,38 @@
 
         <Button
             android:id="@+id/add_content"
-            android:layout_width="48dp"
+            android:layout_width="220dp"
             android:layout_height="48dp"
-            android:text="♥"
+            android:text="你的心动~♥~不如行动"
             android:textSize="20dp"
             android:gravity="center"
             android:background="#00000000"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/search"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
+
             android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:text="搜索"
+            android:layout_width="24dp"
+            android:layout_marginLeft="24dp"
+            android:text=""
             android:textSize="20dp"
-            android:background="#00000000"
-            android:layout_height="wrap_content"
+            android:background="@drawable/dasousuo"
+            android:layout_height="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
+            android:layout_marginTop="@dimen/dp_10"
             android:id="@+id/recommend"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            android:layout_width="24dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="24dp"
             android:text="推荐"
-            android:textSize="20dp"
-            android:background="#00000000"
+            android:textSize="10dp"
+            android:background="@drawable/frame"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,16 +68,15 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
-            <ImageButton
+            <ImageView
                 android:id="@+id/imageButton1"
                 android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@mipmap/spot_1"/>
+                android:layout_height="50dp"/>
             <TextView
                 android:id="@+id/home_text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Text 1"/>
+                android:text="全部景点"/>
 
         </LinearLayout>
         <LinearLayout
@@ -82,16 +85,15 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
-            <ImageButton
+            <ImageView
                 android:id="@+id/imageButton2"
                 android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@mipmap/spot_2"/>
+                android:layout_height="50dp"/>
             <TextView
                 android:id="@+id/home_text2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Text 2"/>
+                android:text="自然风光"/>
     </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -99,16 +101,15 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
-            <ImageButton
+            <ImageView
                 android:id="@+id/imageButton3"
                 android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@mipmap/spot_3"/>
+                android:layout_height="50dp"/>
             <TextView
                 android:id="@+id/home_text3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Text 3"/>
+                android:text="名胜古迹"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -116,16 +117,15 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
-            <ImageButton
+            <ImageView
                 android:id="@+id/imageButton4"
                 android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@mipmap/spot_4"/>
+                android:layout_height="50dp"/>
             <TextView
                 android:id="@+id/home_text4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Text 4"/>
+                android:text="动植物园"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -140,16 +140,15 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
-            <ImageButton
+            <ImageView
                 android:id="@+id/imageButton5"
                 android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@mipmap/spot_5"/>
+                android:layout_height="50dp"/>
             <TextView
                 android:id="@+id/home_text5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Text 5"/>
+                android:text="主题乐园"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -157,16 +156,15 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
-            <ImageButton
+            <ImageView
                 android:id="@+id/imageButton6"
                 android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@mipmap/spot_6"/>
+                android:layout_height="50dp"/>
             <TextView
                 android:id="@+id/home_text6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Text 6"/>
+                android:text="赏花踏青"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -174,16 +172,15 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
-            <ImageButton
+            <ImageView
                 android:id="@+id/imageButton7"
                 android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@mipmap/spot_7"/>
+                android:layout_height="50dp"/>
             <TextView
                 android:id="@+id/home_text7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Text 7"/>
+                android:text="城市观光"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -191,16 +188,15 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
-            <ImageButton
+            <ImageView
                 android:id="@+id/imageButton8"
                 android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@mipmap/spot_8"/>
+                android:layout_height="50dp"/>
             <TextView
                 android:id="@+id/home_text8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Text 8"/>
+                android:text="展馆展览"/>
         </LinearLayout>
 
 
@@ -214,6 +210,9 @@
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <com.scwang.smart.refresh.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_marginTop="@dimen/dp_10"
@@ -227,6 +226,9 @@
 
 
         </androidx.recyclerview.widget.RecyclerView>
+        <com.scwang.smart.refresh.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

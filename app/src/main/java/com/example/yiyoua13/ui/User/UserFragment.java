@@ -2,12 +2,14 @@ package com.example.yiyoua13.ui.User;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -35,6 +38,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.bumptech.glide.Glide;
+import com.example.yiyoua13.FragAct;
 import com.example.yiyoua13.PersonAdapter;
 import com.example.yiyoua13.R;
 import com.example.yiyoua13.WaterFallAdapter;
@@ -43,6 +48,7 @@ import com.example.yiyoua13.ui.FansFollowActivity;
 import com.example.yiyoua13.ui.FavoriteActivity;
 import com.example.yiyoua13.ui.InfoActivity;
 import com.example.yiyoua13.ui.MineActivity;
+import com.example.yiyoua13.ui.Url_Request;
 import com.example.yiyoua13.variousclass.fans;
 import com.scwang.smartrefresh.header.DeliveryHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -65,6 +71,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     private ImageButton bt_info;
     private ImageButton bt_fav;
     private ImageButton bt_mine;
+    private int pagenum = 1;
     private int flag = 0;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.LayoutManager mLayoutManager2;
@@ -79,6 +86,8 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     private FragmentUserBinding binding;
     private CircleImageView touxiang;
     private Bitmap head;// 头像Bitmap
+    private SharedPreferences sp,sp_note;
+    private String user_token,user_id;
     @SuppressLint("SdCardPath")
     private static String path = "/data/data/com.example.yiyoua13/";// sd路径
     private void initPhotoError(){
@@ -163,6 +172,10 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         dialog.show();
     }
     private void init(){
+        sp = getActivity().getSharedPreferences("Login", MODE_PRIVATE);
+        //user_token=TOKEN
+        user_token=sp.getString("TOKEN","");
+        user_id=sp.getString("USER_ID","");
         bt_info = binding.settings;
         myinfo= binding.space;
         touxiang=binding.tx;
@@ -179,6 +192,36 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         myfans.setOnClickListener(this);
         myfollow.setOnClickListener(this);
         myinfo.setOnClickListener(this);
+        if (!user_token.equals("")){
+            Url_Request.sendRequestBasicinfo_id(Url_Request.getUrl_head() + "/user/"+user_id, user_token,  new Url_Request.OnIconResponseListener() {
+                @Override
+                public void onBeanResponse(Object bean) {
+                    Url_Request.User_info user_basicinfo = (Url_Request.User_info) bean;
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            Glide.with(getActivity()).load(user_basicinfo.getIcon()).into(touxiang);
+                        }
+                    });
+                }
+            });
+            Url_Request.sendRequestinfo_id(Url_Request.getUrl_head() + "/user/info", user_token, user_id, new Url_Request.OnIconResponseListener() {
+                @Override
+                public void onBeanResponse(Object bean) {
+                    Url_Request.User_info user_info = (Url_Request.User_info) bean;
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.name.setText(user_info.getUserName());
+                            binding.fansnum.setText(user_info.getFans());
+                            binding.follownum.setText(user_info.getFollowee());
+                        }
+                    });
+                }
+            });
+        }
+
         //binding.refreshLayout.setEnableLoadMore(false);
         //下拉刷新
         SmartRefreshLayout refresh = binding.refreshLayout;
@@ -188,16 +231,16 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         refresh.setOnLoadMoreListener(refreshLayout -> {
 
 
-                    mAdapter2.updateData(buildData());
 
-            refreshLayout.finishLoadMore();//传入false表示刷新失败
+            loadData();
+            refreshLayout.finishLoadMore(/*,false*/);//传入false表示加载失败
         });
         refresh.setOnRefreshListener(refreshLayout ->{
             //刷新数据
 
+            pagenum=mAdapter2.clearData();
+            FreshData();
 
-                    mAdapter2 = new WaterFallAdapter(getActivity(), buildData());
-                    mRecyclerView.setAdapter(mAdapter2);
 
 
 
@@ -207,66 +250,185 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         //mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         //mAdapter = new PersonAdapter(getActivity(), buildDatafans());
         mLayoutManager2 = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        mAdapter2 = new WaterFallAdapter(getActivity(), buildData());
-        mRecyclerView.setAdapter(mAdapter2);
+        if (!user_token.equals("")){
+            mAdapter2 = new WaterFallAdapter(getActivity(), buildData());
+            mRecyclerView.setAdapter(mAdapter2);
+        }
+
 
         mRecyclerView.setLayoutManager(mLayoutManager2);
         mRecyclerView.setAdapter(mAdapter2);
 
 
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
 
             case R.id.space:
-                Intent intent = new Intent(getActivity(), FansFollowActivity.class);
-                startActivity(intent);
+                if (user_token.equals("")) {
+                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
+                    Intent intent0 = new Intent(getActivity(), FragAct.class);
+                    startActivity(intent0);
+                }else {
+                    Intent intent = new Intent(getActivity(), FansFollowActivity.class);
+                    intent.putExtra("name",binding.name.getText().toString());
+                    intent.putExtra("fans_num",binding.fansnum.getText().toString());
+                    intent.putExtra("follow_num",binding.follownum.getText().toString());
+                    startActivity(intent);
+                }
+
                 //showTypeDialog();
                 break;
             case R.id.settings:
-                Intent intent1 = new Intent(getActivity(), InfoActivity.class);
-                startActivity(intent1);
+                if (user_token.equals("")) {
+                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
+                    Intent intent0 = new Intent(getActivity(), FragAct.class);
+                    startActivity(intent0);
+                }else {
+                    Intent intent = new Intent(getActivity(), InfoActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.favourites:
-                Intent intent2 = new Intent(getActivity(), FavoriteActivity.class);
-                startActivity(intent2);
+                if (user_token.equals("")) {
+                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
+                    Intent intent0 = new Intent(getActivity(), FragAct.class);
+                    startActivity(intent0);
+                }else {
+                    Intent intent = new Intent(getActivity(), FavoriteActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.mine:
-                Intent intent3 = new Intent(getActivity(), MineActivity.class);
-                startActivity(intent3);
+                if (user_token.equals("")) {
+                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
+                    Intent intent0 = new Intent(getActivity(), FragAct.class);
+                    startActivity(intent0);
+                }else {
+                    Intent intent = new Intent(getActivity(), MineActivity.class);
+                    startActivity(intent);
+                }
                 break;
 
         }
     }
+    private void FreshData(){
+        Url_Request.sendRequestBlogOfFollow(Url_Request.getUrl_head()+"/blog/of/follow", user_token,String.valueOf(System.currentTimeMillis()),"0",new Url_Request.OnIconResponseListener() {
+            @Override
+            public void onBeanResponse(Object bean) {
+                List<WaterFallAdapter.PersonCard> list = new ArrayList<>();
+                Url_Request.NoteList noteLists = (Url_Request.NoteList) bean;
+                String minTime = noteLists.getMintime().toString();
+                String offset = noteLists.getOffset().toString();
+                //存入sharedpreference
+                SharedPreferences.Editor editor = getActivity().getSharedPreferences("note", MODE_PRIVATE).edit();
+                editor.putString("minTime", minTime);
+                editor.putString("offset", offset);
+                editor.apply();
+                List<Url_Request.Note> blogHots = noteLists.getList();
+                for (Url_Request.Note note : blogHots) {
+                    WaterFallAdapter.PersonCard p = new WaterFallAdapter.PersonCard();
+                    p.name = note.getName();
+                    p.content = note.getTitle();
+                    p.like = note.getLiked().toString();
+                    p.avatarUrl = note.getImageslist().get(0).toString();
+                    p.headurl = note.getIcon();
+                    p.islike = note.getIslike();
+                    p.imgHeight = 500;
+                    p.id = note.getId().toString();
+                    list.add(p);
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter2.updateData(list);
+                    }
+                });
+            }
+        });
+        pagenum=2;
+    }
+
     private List<WaterFallAdapter.PersonCard> buildData() {
-
-        String[] names = {"拉格纳罗斯","甘雨","伦纳德","nox","盖伦","陈博晟"};
-        String[] contents = {"a","b","c5641561654564564","d","e","f"};
-        String[] likes = {"99+","2","3","4","5","6"};
-
-        String[] imgUrs = {"https://i.postimg.cc/x1HHh4C7/1.png","","https://i.postimg.cc/3JGhkJ8C/whl.jpg","https://i.postimg.cc/3JGhkJ8C/whl.jpg","https://i.postimg.cc/3JGhkJ8C/whl.jpg","https://i.postimg.cc/3JGhkJ8C/whl.jpg",
-
-        };
-        String[] headUrs = {
-                "https://i.postimg.cc/3JGhkJ8C/whl.jpg","https://i.postimg.cc/3JGhkJ8C/whl.jpg","https://i.postimg.cc/3JGhkJ8C/whl.jpg","https://i.postimg.cc/3JGhkJ8C/whl.jpg","https://i.postimg.cc/3JGhkJ8C/whl.jpg","https://i.postimg.cc/3JGhkJ8C/whl.jpg",
-
-        };
-
         List<WaterFallAdapter.PersonCard> list = new ArrayList<>();
-        for(int i=0;i<6;i++) {
-            WaterFallAdapter.PersonCard p = new WaterFallAdapter.PersonCard();
+        Url_Request.sendRequestBlogOfFollow(Url_Request.getUrl_head()+"/blog/of/follow", user_token,String.valueOf(System.currentTimeMillis()),"0",new Url_Request.OnIconResponseListener() {
+            @Override
+            public void onBeanResponse(Object bean) {
+                Url_Request.NoteList noteLists = (Url_Request.NoteList) bean;
+                String minTime = noteLists.getMintime().toString();
+                String offset = noteLists.getOffset().toString();
+                //存入sharedpreference
+                SharedPreferences.Editor editor = getActivity().getSharedPreferences("note", MODE_PRIVATE).edit();
+                editor.putString("minTime", minTime);
+                editor.putString("offset", offset);
+                editor.apply();
+                List<Url_Request.Note> blogHots = noteLists.getList();
+                for (Url_Request.Note note : blogHots) {
+                    WaterFallAdapter.PersonCard p = new WaterFallAdapter.PersonCard();
+                    p.name = note.getName();
+                    p.content = note.getTitle();
+                    p.like = note.getLiked().toString();
+                    p.avatarUrl = note.getImageslist().get(0).toString();
+                    p.headurl = note.getIcon();
+                    p.islike = note.getIslike();
+                    p.imgHeight = 500;
+                    p.id = note.getId().toString();
+                    list.add(p);
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter2.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
 
-            p.avatarUrl = imgUrs[i];
-            p.name = names[i];
-            p.content = contents[i];
-            p.like = likes[i];
-            p.headurl = headUrs[i];
-            p.imgHeight = 500;//(i % 2)*100 + 400; //偶数和奇数的图片设置不同的高度，以到达错开的目的
-            list.add(p);
-        }
+        pagenum=2;
+
 
         return list;
+    }
+    private void loadData(){
+        sp_note = getActivity().getSharedPreferences("note", MODE_PRIVATE);
+        String mT = sp_note.getString("minTime", "");
+        String os = sp_note.getString("offset", "");
+        Url_Request.sendRequestBlogOfFollow(Url_Request.getUrl_head()+"/blog/of/follow", user_token,mT,os,new Url_Request.OnIconResponseListener() {
+            @Override
+            public void onBeanResponse(Object bean) {
+                List<WaterFallAdapter.PersonCard> list = new ArrayList<>();
+                Url_Request.NoteList noteLists = (Url_Request.NoteList) bean;
+                String minTime = noteLists.getMintime().toString();
+                String offset = noteLists.getOffset().toString();
+                //存入sharedpreference
+                SharedPreferences.Editor editor = getActivity().getSharedPreferences("note", MODE_PRIVATE).edit();
+                editor.putString("minTime", minTime);
+                editor.putString("offset", offset);
+                editor.apply();
+                List<Url_Request.Note> blogHots = noteLists.getList();
+                for (Url_Request.Note note : blogHots) {
+                    WaterFallAdapter.PersonCard p = new WaterFallAdapter.PersonCard();
+                    p.name = note.getName();
+                    p.content = note.getTitle();
+                    p.like = note.getLiked().toString();
+                    p.avatarUrl = note.getImageslist().get(0).toString();
+                    p.headurl = note.getIcon();
+                    p.islike = note.getIslike();
+                    p.imgHeight = 500;
+                    p.id = note.getId().toString();
+                    list.add(p);
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter2.updateData(list);
+                    }
+                });
+            }
+        });
+        pagenum++;
     }
 
     private List<fans> buildDatafans() {

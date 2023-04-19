@@ -6,7 +6,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.yiyoua13.ui.InfoActivity;
 import com.example.yiyoua13.ui.MineActivity;
+import com.example.yiyoua13.ui.Url_Request;
 import com.example.yiyoua13.variousclass.fans;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.like.LikeButton;
@@ -40,15 +43,22 @@ public class WaterFallAdapter extends RecyclerView.Adapter {
     private List<PersonCard> mData; //定义数据源
 
     public static class PersonCard implements Serializable {
+        public String id;
         public String avatarUrl; //大图片的Url
         public String headurl; //头像的Url
         public String name;  //名字
         public int imgHeight;  //头像图片的高度
         public String content;//内容
         public String like;//点赞数
+        public boolean islike;//是否点赞
 
     }
+    public int clearData() {
 
+        mData.clear();
+        notifyDataSetChanged();
+        return 1;
+    }
     //定义构造方法，默认传入上下文和数据源
     public WaterFallAdapter(Context context, List<PersonCard> data) {
         mContext = context;
@@ -88,7 +98,7 @@ public class WaterFallAdapter extends RecyclerView.Adapter {
                 if (mContext instanceof MineActivity) {
                     int position0 = holder.getBindingAdapterPosition();
                     PersonCard personCard = mData.get(position0);
-                    Toast.makeText(mContext, "长按"+personCard.name, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(mContext, "长按"+personCard.name, Toast.LENGTH_SHORT).show();
                     new XPopup.Builder(mContext)
                             .atView(v)  // 依附于所点击的View，内部会自动判断在上方或者下方显示
                             .asAttachList(new String[]{"删除", "取消"},
@@ -100,6 +110,12 @@ public class WaterFallAdapter extends RecyclerView.Adapter {
                                             if (position == 0) {
                                                 mData.remove(position0);
                                                 notifyDataSetChanged();
+                                                SharedPreferences sp = mContext.getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+                                                String token = sp.getString("TOKEN","");
+                                                Log.e("token",token);
+                                                Toast.makeText(mContext, "已删除", Toast.LENGTH_SHORT).show();
+                                                Url_Request.sendRequestBlogDelete(Url_Request.getUrl_head()+"/blog/delete/"+personCard.id,token);
                                             }
                                             //取消
                                             else if (position == 1) {
@@ -117,11 +133,22 @@ public class WaterFallAdapter extends RecyclerView.Adapter {
         ((MyViewHolder) holder).clickView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = holder.getBindingAdapterPosition();
-                PersonCard personCard = mData.get(position);
-                Intent intent = new Intent(mContext, TestActivity.class);
-                intent.putExtra("person_data", personCard.name);
-                mContext.startActivity(intent);
+                SharedPreferences sp = mContext.getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+                String token = sp.getString("TOKEN","");
+                /*if (token.equals("")){
+                    Toast.makeText(mContext,"请先登录", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(mContext, FragAct.class);
+                    ((Activity)mContext).startActivity(intent);
+                }*/
+
+                    int position = holder.getBindingAdapterPosition();
+                    PersonCard personCard = mData.get(position);
+                    Intent intent = new Intent(mContext, TestActivity.class);
+                    intent.putExtra("person_data", personCard.id);
+                    mContext.startActivity(intent);
+
+
                 //销毁当前Activity
                 //((Activity)mContext).finish();
             }
@@ -137,17 +164,75 @@ public class WaterFallAdapter extends RecyclerView.Adapter {
 
             }*/
         });
+        ((MyViewHolder) holder).likeButton.setLiked(personCard.islike);
         ((MyViewHolder) holder).likeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
-                int position = holder.getBindingAdapterPosition();
-                PersonCard personCard = mData.get(position);
-                ((MyViewHolder) holder).like.setText("已赞");
+                SharedPreferences sp = mContext.getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+                String token = sp.getString("TOKEN","");
+                if (token.equals("")){
+                    Toast.makeText(mContext,"请先登录", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(mContext, FragAct.class);
+                    ((Activity)mContext).startActivity(intent);
+                }
+                else {
+                    int position = holder.getBindingAdapterPosition();
+                    PersonCard personCard = mData.get(position);
+                    String likenum=((MyViewHolder) holder).like.getText().toString();
+                    SharedPreferences sp2 = mContext.getSharedPreferences("Login", Context.MODE_PRIVATE);
+                    String token2 = sp2.getString("TOKEN", "");
+                    Url_Request.sendRequestBlogUserLike(Url_Request.getUrl_head()+"/blog/like/"+personCard.id,token2, new Url_Request.OnIconResponseListener() {
+                        @Override
+                        public void onBeanResponse(Object bean) {
+
+                        }
+                    });
+                    if(likenum.equals("99+")){
+                    }
+                    else{
+                        int likenum1=Integer.parseInt(likenum);
+                        likenum1++;
+                        ((MyViewHolder) holder).like.setText(String.valueOf(likenum1));
+                    }
+                }
+
+
+
 
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
+                int position = holder.getBindingAdapterPosition();
+                PersonCard personCard = mData.get(position);
+                String likenum=((MyViewHolder) holder).like.getText().toString();
+                SharedPreferences sp = mContext.getSharedPreferences("Login", Context.MODE_PRIVATE);
+                String token = sp.getString("TOKEN", "");
+                if (token.equals("")){
+                    Toast.makeText(mContext,"请先登录", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(mContext, FragAct.class);
+                    ((Activity)mContext).startActivity(intent);
+                }
+                else {
+
+                    SharedPreferences sp2 = mContext.getSharedPreferences("Login", Context.MODE_PRIVATE);
+                    String token2 = sp2.getString("TOKEN", "");
+                    Url_Request.sendRequestBlogUserLike(Url_Request.getUrl_head()+"/blog/like/"+personCard.id,token2, new Url_Request.OnIconResponseListener() {
+                        @Override
+                        public void onBeanResponse(Object bean) {
+
+                        }
+                    });
+                    if(likenum.equals("99+")){
+                    }
+                    else{
+                        int likenum1=Integer.parseInt(likenum);
+                        likenum1--;
+                        ((MyViewHolder) holder).like.setText(String.valueOf(likenum1));
+                    }
+                }
+
 
             }
 

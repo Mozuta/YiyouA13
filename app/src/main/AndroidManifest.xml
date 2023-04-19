@@ -24,13 +24,23 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/yiyou"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.FakeActivity1"
+            android:exported="false" />
+
+        <service android:name="com.amap.api.track.AMapTrackService" />
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="cd49a56f16ba1dbfd3004edd47d6fecb" />
+
         <activity
             android:name=".ui.MineActivity"
             android:exported="false" />
@@ -53,9 +63,6 @@
             android:name=".ui.InfoActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.SettingsActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.RecommendActivity"
             android:exported="false" />
         <activity
@@ -73,9 +80,6 @@
             android:exported="false" />
         <activity
             android:name=".ui.DetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.InnerActivity"
             android:exported="false" />
         <activity
             android:name=".ui.ContentActivity"

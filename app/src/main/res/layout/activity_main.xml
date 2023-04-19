@@ -8,10 +8,11 @@
     >
 
     <ImageView
+
         android:id="@+id/yiyouhead"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
-        android:src="@drawable/sunset"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/easego"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.454"
@@ -23,7 +24,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="\n易游\n说走就走~"
+        android:text=""
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

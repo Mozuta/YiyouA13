@@ -13,7 +13,7 @@ android {
             abiFilters "armeabi"
         }
         applicationId "com.example.yiyoua13"
-        minSdk 24
+        minSdk 31
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -47,6 +47,11 @@ dependencies {
     // Java language implementation
     implementation "androidx.fragment:fragment:$fragment_version"
 
+    //implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation files('libs/AMapTrack_1.4.1_AMapLocation_6.2.0_20221026.jar')
+    implementation ('com.amap.api:navi-3dmap:latest.integration')
+    //implementation('com.amap.api:location:5.2.0')
+
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
@@ -61,11 +66,10 @@ dependencies {
     implementation 'com.android.car.ui:car-ui-lib:2.0.0'
     implementation 'com.github.JessYanCoding:AndroidAutoSize:v1.2.1'
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
-    //implementation files('libs\\AMap3DMap_9.6.0_AMapLocation_6.2.0_20230116.jar')
     //implementation 'com.amap.api:3dmap:latest.integration'
-    implementation 'com.amap.api:navi-3dmap:latest.integration'
+
     //implementation 'com.amap.api:location:latest.integration'
-    implementation 'com.amap.api:search:latest.integration'
+    //implementation 'com.amap.api:search:latest.integration'4
     implementation 'com.google.code.gson:gson:2.10.1'
     //3D地图so及jar
     //implementation files('libs\\AMap3DMap_9.6.0_AMapSearch_9.5.0_AMapLocation_6.2.0_20230116.jar')

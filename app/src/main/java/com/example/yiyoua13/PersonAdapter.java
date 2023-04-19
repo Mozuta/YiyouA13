@@ -1,8 +1,13 @@
 package com.example.yiyoua13;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +21,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.yiyoua13.ui.PCenter_Activity;
+import com.example.yiyoua13.ui.Url_Request;
 import com.example.yiyoua13.variousclass.fans;
 
 import java.util.List;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 public class PersonAdapter extends RecyclerView.Adapter{
     private Context mContext;
@@ -43,24 +51,55 @@ public class PersonAdapter extends RecyclerView.Adapter{
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        SharedPreferences sp;
+        String user_token,user_id,if_follow;
+        sp = mContext.getSharedPreferences("Login", MODE_PRIVATE);
+        //user_token=TOKEN
+        user_token=sp.getString("TOKEN","");
+        user_id=sp.getString("USER_ID","");
         PAViewHolder paViewHolder=(PAViewHolder)holder;
         fans fans=fansList.get(position);
         Glide.with(mContext).load(fans.getFans_headpic()).placeholder(R.drawable.hog).error(R.drawable.lwr).into(paViewHolder.avatar);;
         paViewHolder.name.setText(fans.getFans_name());
-        paViewHolder.fans_num.setText(fans.getFans_num());
-        paViewHolder.content_num.setText(fans.getContent_num());
+        paViewHolder.introduction.setText(fans.getIntroduction());
+        Url_Request.sendRequestFollowOrNot(Url_Request.getUrl_head() + "/follow/or/not/" + fans.getFans_id(), user_token, new Url_Request.OnIconResponseListener() {
+            @Override
+            public void onBeanResponse(Object bean) {
+                Boolean if_follow=(Boolean)bean;
+                ((Activity)mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (if_follow){
+                            paViewHolder.follow.setText("已关注");
+                        }
+                        else {
+                            paViewHolder.follow.setText("关注");
+                        }
+                        //notifyDataSetChanged();
+                    }
+                });
+
+
+            }
+        });
         paViewHolder.fans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(mContext, PCenter_Activity.class);
-                //intent.putExtra("id",fans.getFans_id());
+                intent.putExtra("id",fans.getFans_id());
                 mContext.startActivity(intent);
             }
         });
         paViewHolder.follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paViewHolder.follow.setText("已关注");
+                Url_Request.sendRequestFollowFollowed(Url_Request.getUrl_head()+"/follow/followed/"+fans.getFans_id().toString(),user_token);
+                if (paViewHolder.follow.getText() == "关注") {
+                    paViewHolder.follow.setText("已关注");
+                } else {
+                    paViewHolder.follow.setText("关注");
+                }
+
             }
         });
 
@@ -80,8 +119,7 @@ public class PersonAdapter extends RecyclerView.Adapter{
         ImageView avatar;
         TextView name;
         ConstraintLayout fans;
-        TextView fans_num;
-        TextView content_num;
+        TextView introduction;
         Button follow;
 
         public PAViewHolder(@NonNull View itemView) {
@@ -90,8 +128,7 @@ public class PersonAdapter extends RecyclerView.Adapter{
             clickView=itemView;
             avatar=itemView.findViewById(R.id.tx);
             name=itemView.findViewById(R.id.namein);
-            fans_num=itemView.findViewById(R.id.fans_num);
-            content_num=itemView.findViewById(R.id.content_num);
+            introduction=itemView.findViewById(R.id.introduction);
             follow=itemView.findViewById(R.id.follow_btn);
         }
     }

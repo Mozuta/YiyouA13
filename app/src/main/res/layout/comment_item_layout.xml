@@ -6,6 +6,8 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:focusable="false"
+        android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="12dp"
@@ -40,23 +42,7 @@
                 android:layout_marginTop="3dp"
                 android:textColor="#989898"/>
         </LinearLayout>
-        <com.like.LikeButton
 
-            app:circle_end_color="@color/purple_500"
-            app:circle_start_color="@color/purple_200"
-            app:dots_primary_color="@color/purple_500"
-            app:dots_secondary_color="@color/purple_700"
-            android:id="@+id/comment_item_like"
-            android:layout_width="34dp"
-            android:layout_height="34dp"
-            app:like_drawable="@drawable/thumb_on"
-            app:liked="false"
-            android:layout_gravity="center"
-            app:unlike_drawable="@drawable/thumb_off"
-
-
-            android:layout_margin="10dp"
-            android:padding="8dp"/>
 
     </LinearLayout>
     <TextView

@@ -21,8 +21,16 @@ public class TagAdapter extends RecyclerView.Adapter{
     private Context mContext;
     private List<tag> mData;
     public static class tag{
+        private String id;
         private String name;
         private String kind;
+        public String getId() {
+            return id;
+        }
+        public void setId(String id) {
+            this.id = id;
+        }
+
         public tag(String name,String kind){
             this.name=name;
             this.kind=kind;
@@ -73,7 +81,11 @@ public class TagAdapter extends RecyclerView.Adapter{
                 int position = myViewHolder.getAdapterPosition();
                 tag tag=mData.get(position);
                 Intent intent=new Intent();
-                intent.putExtra("tag",tag.name);
+                String str = tag.name;
+                String tagid=tag.id;
+                str = str.replaceAll("^\\S+\\s+|\\s{2,}|\\s+$", "");
+                intent.putExtra("id",tagid);
+                intent.putExtra("tag",str);
                 //返回上一个活动
                 ((TagActivity)mContext).setResult(RESULT_OK,intent);
                 ((TagActivity)mContext).finish();

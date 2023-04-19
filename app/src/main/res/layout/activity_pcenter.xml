@@ -5,7 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+
     tools:context=".ui.PCenter_Activity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ff_toolbar"
         android:layout_marginStart="@dimen/dp_10"
@@ -52,12 +58,12 @@
         app:layout_constraintTop_toBottomOf="@+id/setmesll">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/tx"
+            android:id="@+id/ps_tx"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginStart="16dp"
             android:foreground="@drawable/circle_button"
-            android:src="@drawable/lwr" />
+            android:src="@drawable/easegohead" />
 
         <LinearLayout
             android:gravity="center"
@@ -159,6 +165,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
+                android:visibility="invisible"
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -211,4 +218,5 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </LinearLayout>
 </LinearLayout>

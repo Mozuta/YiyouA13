@@ -34,8 +34,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginStart="16dp"
-            android:foreground="@drawable/circle_button"
-            android:src="@drawable/lwr" />
+            android:src="@drawable/easegohead" />
 
         <LinearLayout
             android:gravity="center"
@@ -168,7 +167,7 @@
                 android:id="@+id/favourites"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@mipmap/spot_1"/>
+                android:background="@drawable/shoucang"/>
             <TextView
                 android:id="@+id/token_1"
                 android:layout_width="wrap_content"
@@ -188,7 +187,7 @@
                 android:id="@+id/settings"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@mipmap/spot_2" />
+                android:background="@drawable/shezhi" />
             <TextView
                 android:id="@+id/token_2"
                 android:layout_width="wrap_content"
@@ -206,7 +205,7 @@
                 android:id="@+id/mine"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@mipmap/spot_3"/>
+                android:background="@drawable/wode"/>
             <TextView
                 android:id="@+id/token_3"
                 android:layout_width="wrap_content"
@@ -276,7 +275,7 @@
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/my_content">

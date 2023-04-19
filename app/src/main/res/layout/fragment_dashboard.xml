@@ -8,28 +8,33 @@
     tools:context=".ui.dashboard.DashboardFragment">
 
     <TextView
-        android:id="@+id/text_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="搜索"
-        android:textSize="24sp"
         android:layout_marginTop="10dp"
+        android:id="@+id/text_search"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:text="\n\n\n      搜索"
+        android:background="@drawable/sousuo2"
+        android:textSize="10sp"
         app:layout_constraintEnd_toStartOf="@+id/search_navi"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_navigate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
         android:layout_marginTop="10dp"
-        android:text="导航"
-        android:textSize="24sp"
+        android:background="@drawable/daohang2"
+        android:text="\n\n\n      导航"
+        android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/search_navi"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.SearchView
+
+
+        android:layout_marginTop="@dimen/dp_10"
         android:id="@+id/search_navi"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
@@ -46,18 +51,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_navi" />
 
-    <com.amap.api.maps.MapView
-        android:id="@+id/map1"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ed_search"
-        android:orientation="vertical">
+        app:layout_constraintTop_toBottomOf="@+id/ed_search">
 
-        <Button
-            android:layout_gravity="bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </com.amap.api.maps.MapView>
+        <com.amap.api.maps.MapView
+            android:id="@+id/map1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="@+id/card"
+            app:layout_constraintBottom_toBottomOf="parent"
+            ></com.amap.api.maps.MapView>
+
+    </androidx.cardview.widget.CardView>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

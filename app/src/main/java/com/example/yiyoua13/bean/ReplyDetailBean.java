@@ -8,10 +8,40 @@ public class ReplyDetailBean {
     private String nickName;
     private String userLogo;
     private int id;
+    private String userId;
+    private String blogId;
+    private String parentId;
+    private String answerId;
+
     private String commentId;
+
     private String content;
     private String status;
     private String createDate;
+    public void setAnswerId(String answerId) {
+        this.answerId = answerId;
+    }
+    public String getAnswerId() {
+        return answerId;
+    }
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+    public String getParentId() {
+        return parentId;
+    }
+    public void setBlogId(String blogId) {
+        this.blogId = blogId;
+    }
+    public String getBlogId() {
+        return blogId;
+    }
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+    public String getUserId() {
+        return userId;
+    }
 
     public ReplyDetailBean(String nickName, String content) {
         this.nickName = nickName;

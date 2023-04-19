@@ -1,5 +1,8 @@
 package com.example.yiyoua13.ui.ff;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,6 +18,7 @@ import com.example.yiyoua13.PersonAdapter;
 import com.example.yiyoua13.R;
 import com.example.yiyoua13.databinding.FragmentFansBinding;
 import com.example.yiyoua13.databinding.FragmentUserBinding;
+import com.example.yiyoua13.ui.Url_Request;
 import com.example.yiyoua13.variousclass.fans;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -31,8 +35,12 @@ import java.util.List;
 public class FansFragment extends Fragment {
     private FragmentFansBinding binding;
     private RecyclerView fansRecyclerView;
+    private int pagenum = 1;
     private RecyclerView.LayoutManager fansLayoutManager;
     private PersonAdapter fansAdapter;
+    private SharedPreferences sp;
+    private String user_token,user_id;
+    private List<fans> list = new ArrayList<>();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -74,6 +82,11 @@ public class FansFragment extends Fragment {
         }
     }
     private void init() {
+        sp = getActivity().getSharedPreferences("Login", MODE_PRIVATE);
+        //user_token=TOKEN
+        user_token=sp.getString("TOKEN","");
+        user_id=sp.getString("USER_ID","");
+
         fansRecyclerView = binding.fansRecyclerView;
         SmartRefreshLayout refreshLayout = binding.fansRefreshLayout;
         refreshLayout.setRefreshHeader(new ClassicsHeader(getActivity()));
@@ -85,16 +98,30 @@ public class FansFragment extends Fragment {
         fansRecyclerView.setAdapter(fansAdapter);
     }
     private List<fans> buildDatafans() {
-        List<fans> list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            fans fans = new fans();
-            fans.setFans_name("粉丝" + i);
-            fans.setFans_headpic("https://i.postimg.cc/x1HHh4C7/1.png");
-            //fans.setFans_id(String.valueOf(i));
-            fans.setFans_num(String.valueOf(i));
-            fans.setContent_num(String.valueOf(i*2));
-            list.add(fans);
-        }
+        Url_Request.sendRequestFollowFans(Url_Request.getUrl_head() + "/follow/fans", user_token, new Url_Request.OnIconResponseListener() {
+            @Override
+            public void onBeanResponse(Object bean) {
+                List<Url_Request.Me> meList = (List<Url_Request.Me>) bean;
+                for (int i = 0; i < meList.size(); i++) {
+                    fans fans = new fans();
+                    fans.setFans_name(meList.get(i).getNickname());
+                    fans.setFans_headpic(meList.get(i).getIcon());
+                    fans.setFans_id(String.valueOf(meList.get(i).getId()));
+                    fans.setIntroduction(meList.get(i).getIntroduction());
+                    list.add(fans);
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        fansAdapter.notifyDataSetChanged();
+                    }
+                });
+
+
+            }
+        });
+
+
         return list;
     }
     @Override

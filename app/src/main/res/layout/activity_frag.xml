@@ -4,72 +4,100 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/sidemenu"
     tools:context=".FragAct">
-
 
 
     <ImageView
         android:id="@+id/iv_1"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:src="@drawable/hog"
+
+        android:layout_width="330dp"
+        android:layout_height="240dp"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/look"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:id="@+id/et_1"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@drawable/bg_username"
-        android:drawableLeft="@drawable/geren"
-        android:drawablePadding="5dp"
-        android:hint="手机号"
-        android:singleLine="true"
-
-        android:maxLines="1"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+    <TextView
+        android:layout_marginTop="@dimen/dp_4"
+        android:id="@+id/textView"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="请输入您的手机号"
         android:textColor="#000000"
-        android:textSize="26sp"
-        app:layout_constraintTop_toBottomOf="@+id/iv_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_1" />
 
-        />
-
-    <EditText
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:id="@+id/et_2"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_below="@id/et_1"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/bg_username"
-        android:drawableLeft="@drawable/suo"
-        android:drawablePadding="5dp"
-        android:hint="密码"
-        android:inputType="textPassword"
-        android:maxLines="1"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="@dimen/dp_4"
+        android:text="请输入您的验证码"
         android:textColor="#000000"
-        android:textSize="26sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_1" />
+
+    <EditText
+
+        android:layout_marginTop="@dimen/dp_4"
+        android:id="@+id/et_1"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:background="@drawable/phone"
+        android:drawablePadding="5dp"
+
+        android:gravity="center|left"
+        android:hint="手机号"
+        android:maxLines="1"
+
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="@dimen/dp_4"
+        android:singleLine="true"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <EditText
+        android:id="@+id/et_2"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/et_1"
+        android:background="@drawable/phone"
+        android:drawablePadding="5dp"
+        android:layout_marginTop="@dimen/dp_4"
+
+        android:hint="验证码"
+        android:maxLines="1"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="@dimen/dp_4"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <CheckBox
         android:id="@+id/cb_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/et_2"
-        android:text="Remember"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:text="记住信息"
+        android:layout_marginRight="56dp"
 
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/loginbt"
+        app:layout_constraintEnd_toStartOf="@+id/check_code"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_2" />
 
@@ -78,24 +106,23 @@
         android:id="@+id/check_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#00000000"
         app:layout_constraintBottom_toTopOf="@+id/loginbt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_2"
-        android:layout_marginEnd="16dp"/>
-
-
-
-
+        android:layout_marginEnd="54dp"/>
 
 
     <Button
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+
         android:id="@+id/loginbt"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="60dp"
-        android:text="登录/注册"
+        android:text="--      启程      --"
         android:textSize="30sp"
+        android:background="#00000000"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

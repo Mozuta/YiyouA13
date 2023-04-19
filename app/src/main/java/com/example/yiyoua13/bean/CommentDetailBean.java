@@ -8,6 +8,9 @@ import java.util.List;
 
 public class CommentDetailBean {
     private int id;
+    private String userId;
+    private String blogId;
+    private Long liked;
     private String nickName;
     private String userLogo;
     private String content;
@@ -15,6 +18,24 @@ public class CommentDetailBean {
     private int replyTotal;
     private String createDate;
     private List<ReplyDetailBean> replyList;
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+    public String getUserId() {
+        return userId;
+    }
+    public void setBlogId(String blogId) {
+        this.blogId = blogId;
+    }
+    public String getBlogId() {
+        return blogId;
+    }
+    public void setLiked(Long liked) {
+        this.liked = liked;
+    }
+    public Long getLiked() {
+        return liked;
+    }
 
     public CommentDetailBean(String nickName,  String content, String createDate) {
         this.nickName = nickName;

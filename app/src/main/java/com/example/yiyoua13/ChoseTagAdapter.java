@@ -28,7 +28,7 @@ public class ChoseTagAdapter extends RecyclerView.Adapter<ChoseTagAdapter.ChoseT
 
     private Context mContext;
     public static List<ChoseItem> mTagList;
-    private HashSet<String> mNameSet;
+    private HashSet<String> mNameSet = new HashSet<>();
     private ChoseEvent mChoseEvent = new ChoseEvent();
     public static class ChoseEvent {
         public HashSet<String> nameSet;
@@ -61,10 +61,12 @@ public class ChoseTagAdapter extends RecyclerView.Adapter<ChoseTagAdapter.ChoseT
 
     @Override
     public void onBindViewHolder(@NonNull ChoseTagViewHolder holder, int position) {
-        mNameSet = new HashSet<>();
+
+
         ChoseTagViewHolder holder2 = (ChoseTagViewHolder) holder;
         ChoseItem choseItem = mTagList.get(position);
         holder2.tv.setText(choseItem.getName());
+        updateStatus(holder2.tv, choseItem.isChose(), mNameSet);
         ((ChoseTagViewHolder) holder).clickView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,14 +78,14 @@ public class ChoseTagAdapter extends RecyclerView.Adapter<ChoseTagAdapter.ChoseT
                         return;
                     }
                     mTagList.get(position).setChose(true);
-                    mNameSet.add(mTagList.get(position).getName());
+                    mNameSet.add(mTagList.get(position).getID());
                 } else {
                     mTagList.get(position).setChose(false);
-                    mNameSet.remove(mTagList.get(position).getName());
+                    mNameSet.remove(mTagList.get(position).getID());
                 }
 
 
-                updateStatus(holder2.tv, isChose, mNameSet);
+                updateStatus(holder2.tv, !isChose, mNameSet);
                 mChoseEvent.nameSet=(mNameSet);
                 EventBus.getDefault().post(mChoseEvent);
 
@@ -107,7 +109,7 @@ public class ChoseTagAdapter extends RecyclerView.Adapter<ChoseTagAdapter.ChoseT
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void updateStatus(TextView textView, boolean isChose, HashSet<String> set) {
-        if (!isChose) {
+        if (isChose) {
             if (set.size() < 9) {
                 textView.setBackground(mContext.getResources().getDrawable(selector_orange));
                 textView.setTextColor(Color.WHITE);

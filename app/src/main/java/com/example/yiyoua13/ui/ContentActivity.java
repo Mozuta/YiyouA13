@@ -9,34 +9,66 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.donkingliang.imageselector.utils.ImageSelector;
 import com.example.yiyoua13.R;
 import com.example.yiyoua13.adapter.ImageAdapter;
+import com.example.yiyoua13.utils.StatusBarUtil;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
+
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class ContentActivity extends AppCompatActivity implements View.OnClickListener {
     private LinearLayout ll_tag;
     private TextView tag_text;
+    private String id;
+    private MaterialRatingBar ratingBar;
+    private EditText et_content,et_title;
 
     private static final int REQUEST_CODE = 0x00000011;
     private static final int PERMISSION_WRITE_EXTERNAL_REQUEST_CODE = 0x00000012;
 
     private RecyclerView rvImage;
+    private SharedPreferences sp;
+    private String user_token,user_id;
     private ImageAdapter mAdapter;
+    private Button submit;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contentex);
+        StatusBarUtil.setTranslucentStatus(this);
+        //一般的手机的状态栏文字和图标都是白色的, 可如果你的应用也是纯白色的, 或导致状态栏文字看不清
+        //所以如果你是这种情况,请使用以下代码, 设置状态使用深色文字图标风格, 否则你可以选择性注释掉这个if内容
+        if (!StatusBarUtil.setStatusBarDarkTheme(this, true)) {
+            //如果不支持设置深色风格 为了兼容总不能让状态栏白白的看不清, 于是设置一个状态栏颜色为半透明,
+            //这样半透明+白=灰, 状态栏的文字能看得清
+            StatusBarUtil.setStatusBarColor(this,0x55000000);
+        }
+        sp = this.getSharedPreferences("Login", MODE_PRIVATE);
+        //user_token=TOKEN
+        user_token=sp.getString("TOKEN","");
+        user_id=sp.getString("USER_ID","");
+        ratingBar = findViewById(R.id.ex_rb);
+        et_content = findViewById(R.id.et_content);
+        et_title = findViewById(R.id.et_title);
+
+        submit = findViewById(R.id.btn_submit);
+        submit.setOnClickListener(this);
         ll_tag = findViewById(R.id.ll_tag);
         tag_text = (TextView) findViewById(R.id.text_tag);
         rvImage = findViewById(R.id.rv_image);
@@ -78,6 +110,8 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
         //接受返回的数据
         if (requestCode == 1 && resultCode == RESULT_OK) {
             String tag = data.getStringExtra("tag");
+            id = data.getStringExtra("id");
+
             tag_text.setText(tag);
         }
     }
@@ -116,7 +150,7 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
                         .start(this, REQUEST_CODE); // 打开相册
                 break;
 
-            case R.id.btn_limit:
+            case R.id.btn_limit://现在有用的
                 //多选(最多9张)
                 com.example.yiyoua13.utils.ImageSelector.builder()
                         .useCamera(true) // 设置是否使用拍照
@@ -169,6 +203,45 @@ public class ContentActivity extends AppCompatActivity implements View.OnClickLi
                 startActivityForResult(intent, 1);
 
                 break;
+            case R.id.btn_submit:
+
+                    //发布
+                    if (tag_text.getText().toString().equals("请选择标签")){
+                        Toast.makeText(this, "请选择标签", Toast.LENGTH_SHORT).show();
+                    } else if (et_content.getText().toString().equals("")) {
+                        Toast.makeText(this, "请输入内容", Toast.LENGTH_SHORT).show();
+
+                    } else if (et_title.getText().toString().equals("")) {
+                        Toast.makeText(this, "请输入标题", Toast.LENGTH_SHORT).show();
+                    } else if (et_title.getText().toString().length() > 20) {
+                        Toast.makeText(this, "标题不能超过20字", Toast.LENGTH_SHORT).show();
+                    } else if (et_content.getText().toString().length() > 200) {
+                        Toast.makeText(this, "内容不能超过200字", Toast.LENGTH_SHORT).show();
+
+                    } else if (et_content.getText().toString().length() < 10) {
+                        Toast.makeText(this, "内容不能少于10字", Toast.LENGTH_SHORT).show();
+                    } else if (et_title.getText().toString().length() < 5) {
+                        Toast.makeText(this, "标题不能少于5字", Toast.LENGTH_SHORT).show();
+                    } else if (ratingBar.getRating() == 0) {
+                        Toast.makeText(this, "请给出评分", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        if (mAdapter.getItemCount() == 0){
+                            Toast.makeText(this, "请选择图片", Toast.LENGTH_SHORT).show();
+                        }else {
+                            List<File> files = new ArrayList<>();
+                            //上传图片
+                            for (int i = 0; i < mAdapter.getItemCount(); i++) {
+                                File file = new File(mAdapter.getImages().get(i));
+                                files.add(file);
+                            }
+                            int rating = (int) (ratingBar.getRating() * 10);
+                            Url_Request.sendRequestBlogSaveBlog(Url_Request.getUrl_head()+"/blog/saveBlog", user_token,String.valueOf(rating),id,user_id,et_title.getText().toString(),et_content.getText().toString(),files);
+                            Toast.makeText(this, "上传成功！", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }
+                    break;
         }
     }
 
